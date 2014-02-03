@@ -65,7 +65,7 @@ VIM        ; prw        ; Water Vapour Path                             ; atmosp
 VIMU       ; vimu       ; Vertically integrated transport WE of moist   ; eastward_moist_transport                            ; kg s-1 m-1 ;
 VIMV       ; vimv       ; Vertically integrated transport SN of moist   ; northward_moist_transport                           ; kg s-1 m-1 ;
 VIMW       ; vimw       ; Vertically integrated transport bottom-top of moist ; upward_moist_transport                        ; kg s-1 m-1 ;
-VIQC       ; cllwvi     ; Liquid Water Content                          ; atmosphere_cloud_liquid_water_content               ; kg m-2     ;
+VIQC       ; clwvi      ; Liquid Water Content                          ; atmosphere_cloud_liquid_water_content               ; kg m-2     ;
 VIQI       ; clivi      ; Ice Water Path                                ; atmosphere_cloud_ice_content                        ; kg m-2     ;
 VIU        ; viu        ; Vertically integrated wind WE                 ; eastward_wind                                       ; s-1 m-1    ;
 VIV        ; viv        ; Vertically integrated wind SN                 ; northward_wind                                      ; s-1 m-1    ;
