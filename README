@@ -1,0 +1,40 @@
+======================================
+wrfncxnj - WRF NetCdf eXtract aNd Join
+======================================
+
+Version: 0.0beta
+SVN-Rev: 1046
+
+Do not redistribute! This software has no public releases yet.
+
+Contact the author for updates: fernandej IN THE DOMAIN unican DOT es
+
+--------
+Contents
+--------
+README
+wrfncxnj_base.py
+wrfncxnj_cli.py
+wrfncxnj_fun.py
+wrfncxnj.py
+wrfncxnj.table
+
+-------------
+Prerequisites
+-------------
+
+python-Numeric
+python-Scientific.IO.NetCDF
+python-pyclimate (www.pyclimate.org)
+
+------------
+Sample usage
+------------
+
+python wrfncxnj.py -v comma,separated,variables,from,wrfncxnj,table -o output_file.nc list_of_wrfout_files
+
+e.g:
+
+python wrfncxnj.py -v RAIN,T2 -o myout.nc wrfout_d01*.nc
+
+Check "python wrfncxnj.py -h" for the full set of options.
