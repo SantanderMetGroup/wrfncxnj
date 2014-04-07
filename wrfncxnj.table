@@ -116,6 +116,7 @@ CLISCCP    ; cll    ; Low Level Cloud Fraction                          ; cloud_
 CLTFR      ; clt    ; Total Cloud Fraction                              ; cloud_area_fraction                               ; 1          ;                     
 CLWVI      ; clwvi  ; Condensed Water Path                              ; atmosphere_cloud_condensed_water_content          ; kg m-2    
 GEOP       ; geop   ; Geopotential                                      ; geopotential                                      ; m 2 s-2    ;                     
+MOISDIV    ; husdiv ; Specific Humidity Divergence                      ; specific_humidity_divergence                      ; s-1        ;             ; p
 MRFSO      ; mrfso  ; Soil Frozen Water Content                         ; soil_frozen_water_content                         ; kg m-2    
 MRSO       ; mrso   ; Total Soil Moisture Content                       ; soil_moisture_content                             ; kg m-2     ;                     
 #PRES       ; pres   ; Air pressure                                      ; air_pressure                                      ; Pa         ;                     
@@ -147,17 +148,4 @@ UER        ; ua     ; Eastward Wind                                     ; eastwa
 V10ER      ; vas    ; Northward Near-Surface Wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
 V10MAXER   ; vasmax ; Max. northward surface wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
 V10MEANER  ; vasmean; Mean northward surface wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
-VER        ; va     ; Northward Wind                                    ; northward_wind                                    ; m s-1      ;             ; p                 
-WIND       ; wspd   ; wind speed                                        ; wind_speed                                        ; m s-1      ;                     
-# FAKEs
-RH2FMAX    ; hursmax; Max. surface relative humidity                    ; relative_humidity                                 ; 1          ; do_nothing          
-RH2FMIN    ; hursmin; Min. surface relative humidity                    ; relative_humidity                                 ; 1          ; do_nothing          
-RAINFMAX1H ; prhmax ; Max. hourly precipitation rate                    ; precipitation_flux                                ; kg m-2 s-1 ; fake_extreme        
-SKINTEMPFMAX; tsmax  ; Max. surface temperature                          ; surface_temperature                               ; K          ; do_nothing          
-SKINTEMPFMIN; tsmin  ; Min. surface temperature                          ; surface_temperature                               ; K          ; do_nothing          
-SPDUV10FMAX; wssmax ; Max. surface wind speed                           ; air_velocity                                      ; m s-1      ; do_nothing          
-FSUNSHINE  ; sund   ; Sunshine duration                                 ; sunshine_duration                                 ; minutes   
-T2FMAX     ; tasmax ; Max. surface air temperature                      ; air_temperature                                   ; K          ; do_nothing          
-T2FMIN     ; tasmin ; Min. surface air temperature                      ; air_temperature                                   ; K          ; do_nothing  
-#Only for setting the time_bonds in the post3, DO NOT CALL them from wrfncxnj.py.
-MSLPMEAN   ; pslmean    ; Mean sea level pressure                           ; air_pressure_at_sea_level                         ; Pa         ;                    
+VER        ; va     ; Northward Wind                                    ; northward_wind                                    ; m s-1      ;             ; p            

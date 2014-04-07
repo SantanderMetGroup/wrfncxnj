@@ -228,6 +228,8 @@ def compute_VER(varobj, onc, wnfiles, wntimes):
 	oncvar = get_oncvar(varobj, v, onc)
 	return oncvar, copyval
 
+
+
 def compute_SMOIS1(varobj, onc, wnfiles, wntimes):
 	incvar = wnfiles.current.variables['SMOIS']
 	if wnfiles.current.variables.has_key("DZS"):
@@ -284,9 +286,9 @@ def compute_MRSO(varobj, onc, wnfiles, wntimes):
 def compute_RAINF(varobj, onc, wnfiles, wntimes):
 	"""Deaccumulates the precipitation field
 
-	This function adds RAINNC and RAINC, RAINTOT has been deprecated since it does not support buckets.
-	It deaccumulates from the value on the previous output time step. The flux is computed dividing
-	by the time interval in seconds.
+	This function adds RAINNC and RAINC, support for RAINTOT has been deprecated since 
+	it does not support buckets. It deaccumulates from the value on the previous output
+	time step. The flux is computed dividing by the time interval in seconds.
 	"""
 	incvar = wnfiles.current.variables["RAINNC"]
 	rainnc = incvar[:]
