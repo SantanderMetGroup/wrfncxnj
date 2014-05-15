@@ -63,7 +63,11 @@ parser.add_option(
 )
 parser.add_option(
 	"-r", "--reference-date", dest="refdate",
-	help="Reference date for the files", metavar="YYYY-MM-DD_hh:mm:ss"
+	help="Reference date for the files"
+)
+parser.add_option(
+	"--time-units", dest="time_units", default="hours since 1950-01-01_00:00:00",
+	help="Units for the time axis", metavar="Days/Hours since YYYY-MM-DD_hh:mm:ss (T or space as separator also work)"
 )
 parser.add_option(
 	"-o", "--output", dest="OFILE", metavar="OUTPUTFILE.nc",

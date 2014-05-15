@@ -7,6 +7,9 @@ wrfncIter = WrfNcFiles()
 #
 # Apply the options that have been parsed.
 #
+if opt.refdate:
+	sys.stderr.write("Error: This option has been deprecated, please use -u --time-units instead")
+	sys.exit(1)
 if opt.geofile:
 	wrfncIter.geo = ncdf.Dataset(opt.geofile, "r")
 if opt.fullfile:
@@ -64,9 +67,8 @@ vars = stdvars(vars, opt.vtable, proj, files[0])
 #
 #	Clone the structure of the netcdf file and get the initial time from the first file.
 #
-if not opt.refdate:
-	opt.refdate = "1950-01-01_00:00:00"
-wnt = WrfNcTime(datetime.strptime(opt.refdate, '%Y-%m-%d_%H:%M:%S'))
+refdate = opt.time_units.split()[2]
+wnt = WrfNcTime(strptime(refdate))
 #
 # Create output netCDF files
 #

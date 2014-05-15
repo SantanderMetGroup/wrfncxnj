@@ -277,7 +277,7 @@ def compute_mslp(p, pb, ph, phb, t , qvapor):
 	t_surf = t_at_pconst*(p[...,0,:]/p_at_pconst)**(gamma*Rd/g)
 	t_sea_level = t_at_pconst+gamma*z_at_pconst
 	# If we follow a traditional computation, there is a correction to the sea level
-	# temperature if both the surface and sea level temnperatures are *too* hot.
+	# temperature if both the surface and sea level temperatures are *too* hot.
 	t_sea_level = np.where( (t_sea_level > TC)*(t_surf <= TC), TC, TC - 0.005*(t_surf-TC)**2) 
 	z_half_lowest = z[:,:,0,:]
 	sea_level_pressure = p[:,:,0,:] * np.exp((2.*g*z_half_lowest)/ (Rd*(t_sea_level+t_surf)))
@@ -286,13 +286,22 @@ def compute_mslp(p, pb, ph, phb, t , qvapor):
 def charr2str(carr):
 	# Forma totalmente cerda...
 	return "".join(carr.tolist())
+#
+# Improved version of strftime that understand any UNIDATA compliant date
+# without requiring specifying the format. 
+#
+def strptime(str):
+	date = ncdf.num2date(0, units="Days since %s" % str)
+	return date
 
 def str2offset(str, basedate):
 	if str == "0000-00-00_00:00:00":
 		rval = 0
 	else:
-		diff = datetime.strptime(str, '%Y-%m-%d_%H:%M:%S') - basedate
-		rval = diff.days*24 + diff.seconds/3600.
+		thisdate = strptime(str)
+		#diff = strptime(str, '%Y-%m-%d_%H:%M:%S') - basedate
+		#rval = diff.days*24 + diff.seconds/3600.
+		rval = ncdf.date2num(thisdate, units=opt.time_units) 
 	return rval
 
 def discard_suspect_files(filelist, criteria='uncommon_size'):
@@ -441,7 +450,7 @@ def create_bare_curvilinear_CF_from_wrfnc(filename, wrfncfile, idate, proj, ncdf
 	onctime = onc.createVariable("time",np.float64, ("time",))
 	onctime.long_name = "time"
 	onctime.standard_name = "time"
-	onctime.units = "hours since %s" % idate.strftime('%Y-%m-%d %H:%M:%S')
+	onctime.units = opt.time_units
 	onctime.calendar = "standard"
 	if opt.tbounds:
 		onctime.bounds = "time_bnds"
@@ -737,20 +746,17 @@ class WrfNcTime:
 	def checkStep(self, wrfnc):
 		# TODO: Check here that the next file does not have a time gap
 		incTimes = wrfnc.current.variables["Times"]
-		t0 = datetime.strptime(charr2str(incTimes[0]), '%Y-%m-%d_%H:%M:%S')
+		t0 = strptime(charr2str(incTimes[0]))
 		if len(incTimes) > 1:
-			t1 = datetime.strptime(charr2str(incTimes[1]), '%Y-%m-%d_%H:%M:%S'
-			)
+			t1 = strptime(charr2str(incTimes[1]))
 			delta = t1-t0
 		elif wrfnc.nxt:
-			t1 = datetime.strptime(
-				charr2str(wrfnc.nxt.variables["Times"][0]), '%Y-%m-%d_%H:%M:%S'
-			)
+			t1 = strptime(
+				charr2str(wrfnc.nxt.variables["Times"][0]))
 			delta = t1-t0
 		elif wrfnc.prv:
-			tp = datetime.strptime(
-				charr2str(wrfnc.prv.variables["Times"][:][-1]), '%Y-%m-%d_%H:%M:%S'
-			)
+			tp = strptime(
+				charr2str(wrfnc.prv.variables["Times"][:][-1]))
 			delta = t0-tp
 		else:
 			delta = t0 - t0
@@ -956,8 +962,8 @@ def get_first_and_last_times(ifiles, format):
 	lastnc = ncdf.Dataset(ifiles[-1], "r")
 	ftimes = firstnc.variables["Times"][:]
 	lasttimes = lastnc.variables["Times"][:]
-	firsttime = datetime.strptime(charr2str(ftimes[0]), '%Y-%m-%d_%H:%M:%S')
-	lasttime = datetime.strptime(charr2str(lasttimes[-1]), '%Y-%m-%d_%H:%M:%S')
+	firsttime = strptime(charr2str(ftimes[0]))
+	lasttime = strptime(charr2str(lasttimes[-1]))
 	firstnc.close()
 	lastnc.close()
 	return firsttime, lasttime
@@ -1170,9 +1176,7 @@ def netcdf_seldate(idate, fdate, ifile, ofile):
 	# Filter the main variables to keep the selected times
 	#
 	t = inc.variables["time"]
-	basedate  = str(t.units)[12:]
-	basedatef = datetime.strptime(basedate, '%Y-%m-%d %H:%M:%S')
-	idatetimes  =  np.array([basedatef + timedelta(hours = t[i]) for i in range(0, len(t[:]))])
+	idatetimes  =  ncdf.num2date(t[:], units=t.units)
 	idateobj = datetime.strptime(idate, '%Y%m%d%H')
 	fdateobj = datetime.strptime(fdate, '%Y%m%d%H')
 	tmask = np.array([ idateobj <= idatetimes[i] <= fdateobj for i in range(0, len(t[:]))])
