@@ -36,7 +36,7 @@ SWDOWN     ; rsds   ; Surface Downwelling Shortwave Radiation           ; surfac
 SWUPT      ; rsnt   ; Net upward shortwave flux at TOA                  ; toa_net_upward_shortwave_flux                     ; W m-2      ;                     
 T2         ; tas    ; Near-Surface Air Temperature                      ; air_temperature                                   ; K          ; screenvar_at_2m     
 TSLB       ; tsos   ; Soil temperature                                  ; soil_temperature                                  ; K          ;                        ; s
-SKINTEMP   ; ts     ; Surface Temperature                               ; surface_temperature                               ; K         
+TSK        ; ts     ; Surface Temperature                               ; surface_temperature                               ; K         
 TKE_MYJ    ; tkemyj ; Specific turbulent kinetic Energy in MYJ scheme   ; specific_turbulent_kinetic_energy_in_myj          ; m 2 s-2    ;                     
 U10        ; uascurv; X surface wind                                    ; x_wind                                            ; m s-1      ;                     
 UDROFF     ; mross  ; Subsurface runoff                                 ; subsurface_runoff                                 ; kg m-2 s-1 ; deaccumulate_flux   
@@ -72,7 +72,6 @@ VIV        ; viv        ; Vertically integrated wind SN                 ; northw
 VIW        ; viw        ; Vertically integrated wind bottom-top         ; upward_wind                                         ; s-1 m-1    ;
 PBLHGT     ; zmla       ; Atmosphere_boundary_layer_thickness           ; atmosphere_boundary_layer_thickness                 ; m          ;
 QICE       ; clice      ; Ice mixing ratio                              ; cloud_ice_water_mixing_ratio                        ; 1          ;                   ; p
-#SH20       ; slw        ; Soil liquid water                             ; soil_liquid_water                                   ; 1          ;                   ; s
 SH2O       ; slw        ; Soil liquid water                             ; soil_liquid_water                                   ; 1          ;                   ; s
 #
 # From CLWRF
@@ -110,9 +109,9 @@ ACSWUPT    ; rsut   ; TOA Outgoing Shortwave Radiation                  ; toa_ou
 #CLD        ; clwi   ; Total cloud water and ice                         ; cloud_water_and_ice_content                       ; kg m-2     ;                     
 CLD        ; clwi   ; Total cloud water and ice                         ; cloud_water_and_ice_content                       ; kg m-2     ; VIQC + VIQI
 CLISCCP    ; clisccp; clouds (1: p<440 hPa, 2: 660<p<440, 3: p>660)     ; cloud                                             ; 1          ;                     
-CLISCCH    ; clh    ; High Level Cloud Fraction                         ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
-CLISCCP    ; clm    ; Mid Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
-CLISCCP    ; cll    ; Low Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
+CLH        ; clh    ; High Level Cloud Fraction                         ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
+CLM        ; clm    ; Mid Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
+CLL        ; cll    ; Low Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
 CLTFR      ; clt    ; Total Cloud Fraction                              ; cloud_area_fraction                               ; 1          ;                     
 CLWVI      ; clwvi  ; Condensed Water Path                              ; atmosphere_cloud_condensed_water_content          ; kg m-2    
 GEOP       ; geop   ; Geopotential                                      ; geopotential                                      ; m 2 s-2    ;                     
@@ -148,4 +147,17 @@ UER        ; ua     ; Eastward Wind                                     ; eastwa
 V10ER      ; vas    ; Northward Near-Surface Wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
 V10MAXER   ; vasmax ; Max. northward surface wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
 V10MEANER  ; vasmean; Mean northward surface wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
-VER        ; va     ; Northward Wind                                    ; northward_wind                                    ; m s-1      ;             ; p            
+VER        ; va     ; Northward Wind                                    ; northward_wind                                    ; m s-1      ;             ; p                 
+WIND       ; wspd   ; wind speed                                        ; wind_speed                                        ; m s-1      ;                     
+# FAKEs
+RH2FMAX    ; hursmax; Max. surface relative humidity                    ; relative_humidity                                 ; 1          ; do_nothing          
+RH2FMIN    ; hursmin; Min. surface relative humidity                    ; relative_humidity                                 ; 1          ; do_nothing          
+RAINFMAX1H ; prhmax ; Max. hourly precipitation rate                    ; precipitation_flux                                ; kg m-2 s-1 ; fake_extreme        
+SKINTEMPFMAX; tsmax  ; Max. surface temperature                          ; surface_temperature                               ; K          ; do_nothing          
+SKINTEMPFMIN; tsmin  ; Min. surface temperature                          ; surface_temperature                               ; K          ; do_nothing          
+SPDUV10FMAX; wssmax ; Max. surface wind speed                           ; air_velocity                                      ; m s-1      ; do_nothing          
+FSUNSHINE  ; sund   ; Sunshine duration                                 ; sunshine_duration                                 ; minutes   
+T2FMAX     ; tasmax ; Max. surface air temperature                      ; air_temperature                                   ; K          ; do_nothing          
+T2FMIN     ; tasmin ; Min. surface air temperature                      ; air_temperature                                   ; K          ; do_nothing  
+#Only for setting the time_bonds in the post3, DO NOT CALL them from wrfncxnj.py.
+MSLPMEAN   ; pslmean    ; Mean sea level pressure                           ; air_pressure_at_sea_level                         ; Pa         ;                    
