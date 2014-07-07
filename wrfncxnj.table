@@ -124,6 +124,7 @@ PRW        ; prw    ; Water Vapor Content                               ; atmosp
 RH2        ; hurs   ; Relative humidty at 2M                            ; relative_humidity                                 ; 1          ;                     
 RAINF      ; pr     ; Precipitation                                     ; precipitation_flux                                ; Kg m-2 s-1
 RAIN       ; pr     ; Accumulated precipitation                         ; precipitation_amount                              ; Kg m-2    
+MRRO       ; mrro   ; Total runoff                                      ; total_runoff                                      ; kg m-2 s-1 ; SFROFF + UDROFF
 #TODO: RAINM1H prhmax Max. hourly precipitation rate precipitation_flux kg m-2 s-1
 RAINFORWARD; pr     ; Precipitation                                     ; precipitation_amount                              ; Kg m-2     ;                     
 RLS        ; rls    ; Net LW surface radiation                          ; surface_net_downward_longwave_flux                ; W m-2      ; EMISS*GLW - 5.67e-8*EMISS*TSK**4
