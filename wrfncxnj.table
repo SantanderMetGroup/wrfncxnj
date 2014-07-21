@@ -15,10 +15,10 @@ HGT        ; orog   ; Surface Altitude                                  ; surfac
 LH         ; hfls   ; Surface Upward Latent Heat Flux                   ; surface_upward_latent_heat_flux                   ; W m-2      ;                     
 LWUPT      ; rlnt   ; Net upward longwave flux at TOA                   ; toa_net_upward_longwave_flux                      ; W m-2      ;                     
 OLR        ; rlut   ; TOA Outgoing Longwave Radiation                   ; toa_outgoing_longwave_flux                        ; W m-2      ;                     
-P          ; p      ; Perturbation Pressure                             ; perturbation_pressure                             ; Pa         ;                        ; z
-PB         ; pb     ; Base State Pressure                               ; base_state_pressure                               ; Pa         ;                        ; z
-PH         ; ph     ; Perturbation Geopotential                         ; perturbation_geopotential                         ; m 2 s-2    ;                        ; z
-PHB        ; phb    ; Base State Geopotential                           ; base_state_geopotential                           ; m 2 s-2    ;                        ; z
+P          ; p      ; Perturbation Pressure                             ; perturbation_pressure                             ; Pa         ;                        ; p
+PB         ; pb     ; Base State Pressure                               ; base_state_pressure                               ; Pa         ;                        ; p
+PH         ; ph     ; Perturbation Geopotential                         ; perturbation_geopotential                         ; m 2 s-2    ;                        ; p
+PHB        ; phb    ; Base State Geopotential                           ; base_state_geopotential                           ; m 2 s-2    ;                        ; p
 PBLH       ; zmla   ; Height of Boundary Layer                          ; atmosphere_boundary_layer_thickness               ; m          ;                     
 POTEVP     ; potevp ; Acummulated potential evaporation                 ; water_potential_evaporation_amount                ; W m-2      ;                     
 PSFC       ; ps     ; Surface Air Pressure                              ; surface_air_pressure                              ; Pa         ;                     
