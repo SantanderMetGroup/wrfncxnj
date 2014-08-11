@@ -302,6 +302,24 @@ def compute_RAINF(varobj, onc, wnfiles, wntimes):
 	oncvar = get_oncvar(varobj, incvar, onc)
 	return oncvar, copyval
 
+def compute_MRRO(varobj, onc, wnfiles, wntimes):
+        """Deaccumulates the total runoff field
+
+        This function adds SFROFF and UDROFF. It deaccumulates from the value on the previous 
+        output time step. The flux is computed dividing by the time interval in seconds.
+        """
+        incvar = wnfiles.current.variables["SFROFF"]
+        sfroff = incvar[:]
+        udroff = wnfiles.current.variables["UDROFF"][:]
+        deac_sfroff = deaccumulate_var(sfroff, "SFROFF", wnfiles, wntimes)
+        deac_udroff  = deaccumulate_var(udroff, "UDROFF", wnfiles, wntimes)
+
+        copyval = deac_sfroff + deac_udroff
+        #copyval = np.where(copyval<0., 0, copyval)/float(wntimes.outstep_s)
+        copyval = copyval/float(wntimes.outstep_s)
+        oncvar = get_oncvar(varobj, incvar, onc)
+        return oncvar, copyval
+
 def compute_RAIN(varobj, onc, wnfiles, wntimes):
 	"""Deaccumulates the precipitation field
 	This function adds RAINNC and RAINC, RAINTOT has been deprecated since it does not support buckets.

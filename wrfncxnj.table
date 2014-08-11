@@ -49,6 +49,8 @@ UST        ; ustar  ; Frictional velocity in similarity theory          ; fricti
 W          ; wa     ; Upward air velocity                               ; upward_air_velocity                               ; m s-1      ;                     
 Z0         ; z0     ; Surface roughness length                          ; surface_roughness_length                          ; m          ;                     
 XICEM      ; sic    ; Sea Ice Flag                                      ; sea_ice_flag                                      ; 1          ;
+XLAT       ; xlat   ; Latitude, south is negative                       ; latitude                                          ; degree_north ;
+XLONG      ; xlong  ; Longitude, west is negative                       ; longitude                                         ; degree_east  ;
 #
 # From geo_em file
 #
@@ -129,7 +131,7 @@ PRW        ; prw    ; Water Vapor Content                               ; atmosp
 RH2        ; hurs   ; Relative humidty at 2M                            ; relative_humidity                                 ; 1          ;                     
 RAINF      ; pr     ; Precipitation                                     ; precipitation_flux                                ; Kg m-2 s-1
 RAIN       ; pr     ; Accumulated precipitation                         ; precipitation_amount                              ; Kg m-2    
-MRRO       ; mrro   ; Total runoff                                      ; total_runoff                                      ; kg m-2 s-1 ; SFROFF + UDROFF
+MRRO       ; mrro   ; Total runoff                                      ; total_runoff                                      ; kg m-2 s-1 ; 
 #TODO: RAINM1H prhmax Max. hourly precipitation rate precipitation_flux kg m-2 s-1
 RAINFORWARD; pr     ; Precipitation                                     ; precipitation_amount                              ; Kg m-2     ;                     
 RLS        ; rls    ; Net LW surface radiation                          ; surface_net_downward_longwave_flux                ; W m-2      ; EMISS*GLW - 5.67e-8*EMISS*TSK**4
