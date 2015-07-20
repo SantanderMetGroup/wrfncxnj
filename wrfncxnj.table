@@ -61,7 +61,7 @@ LU_INDEX   ; lco    ; Land use                                          ; land_u
 # From p_interp
 #
 ACLWDNT    ; aclwdnt    ; Accumulated downwelling LW flux at top        ; accumulated_downward_longwave_flux                  ; J m-2      ;
-CLT        ; clt        ; Total cloud Fraction                          ; cloud_area_fraction                                 ; 1          ;                     
+CLT        ; clt        ; Total cloud Fraction                          ; cloud_area_fraction                                 ; 100        ;                     
 EMISS      ; emiss      ; Surface emissivity                            ; surface_emissivity                                  ;            ;
 GHT        ; zg         ; Geopotential Height                           ; geopotential_height                                 ; m          ;                   ; p                
 MSLP       ; psl        ; Sea level pressure                            ; air_pressure_at_sea_level                           ; Pa         ;                     
@@ -128,10 +128,10 @@ MRSO       ; mrso   ; Total Soil Moisture Content                       ; soil_m
 #PRES       ; pres   ; Air pressure                                      ; air_pressure                                      ; Pa         ;                     
 PRES       ; pres   ; Air pressure                                      ; air_pressure                                      ; Pa         ; P + PB; z
 PRW        ; prw    ; Water Vapor Content                               ; atmosphere_water_vapor_content                    ; kg m-2     ;                     
-RH2        ; hurs   ; Relative humidty at 2M                            ; relative_humidity                                 ; 1          ;                     
-RAINF      ; pr     ; Precipitation                                     ; precipitation_flux                                ; Kg m-2 s-1
-RAIN       ; pr     ; Accumulated precipitation                         ; precipitation_amount                              ; Kg m-2    
-MRRO       ; mrro   ; Total runoff                                      ; total_runoff                                      ; kg m-2 s-1 ; 
+RH2        ; hurs   ; Near-Surface Relative Humidty                     ; relative_humidity                                 ; 100        ;                   
+RAINF      ; pr     ; Precipitation                                     ; precipitation_flux                                ; kg m-2 s-1
+RAIN       ; pr     ; Accumulated precipitation                         ; precipitation_amount                              ; kg m-2    
+MRRO       ; mrro   ; Total runoff                                      ; runoff_flux                                      ; kg m-2 s-1 ; 
 #TODO: RAINM1H prhmax Max. hourly precipitation rate precipitation_flux kg m-2 s-1
 RAINFORWARD; pr     ; Precipitation                                     ; precipitation_amount                              ; Kg m-2     ;                     
 RLS        ; rls    ; Net LW surface radiation                          ; surface_net_downward_longwave_flux                ; W m-2      ; EMISS*GLW - 5.67e-8*EMISS*TSK**4
