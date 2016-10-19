@@ -128,7 +128,7 @@ MRSO       ; mrso   ; Total Soil Moisture Content                       ; soil_m
 #PRES       ; pres   ; Air pressure                                      ; air_pressure                                      ; Pa         ;                     
 PRES       ; pres   ; Air pressure                                      ; air_pressure                                      ; Pa         ; P + PB; z
 PRW        ; prw    ; Water Vapor Content                               ; atmosphere_water_vapor_content                    ; kg m-2     ;                     
-RH2        ; hurs   ; Near-Surface Relative Humidty                     ; relative_humidity                                 ; 100        ;                   
+RH2        ; hurs   ; Near-Surface Relative Humidty                     ; relative_humidity                                 ; %        ;                   
 RAINF      ; pr     ; Precipitation                                     ; precipitation_flux                                ; kg m-2 s-1
 RAIN       ; pr     ; Accumulated precipitation                         ; precipitation_amount                              ; kg m-2    
 MRRO       ; mrro   ; Total runoff                                      ; runoff_flux                                      ; kg m-2 s-1 ; 
