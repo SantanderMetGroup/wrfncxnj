@@ -61,9 +61,9 @@ LU_INDEX   ; lco    ; Land use                                          ; land_u
 # From p_interp
 #
 ACLWDNT    ; aclwdnt    ; Accumulated downwelling LW flux at top        ; accumulated_downward_longwave_flux                  ; J m-2      ;
-CLT        ; clt        ; Total cloud Fraction                          ; cloud_area_fraction                                 ; 100        ;                     
+CLT        ; clt        ; Total cloud Fraction                          ; cloud_area_fraction                                 ; %          ; CLT*100                     
 EMISS      ; emiss      ; Surface emissivity                            ; surface_emissivity                                  ;            ;
-GHT        ; zg         ; Geopotential Height                           ; geopotential_height                                 ; m          ;                   ; p                
+GHT        ; zg         ; Geopotential Height                           ; geopotential_height                                 ; m          ; GHT*0.102040816   ; p                
 MSLP       ; psl        ; Sea level pressure                            ; air_pressure_at_sea_level                           ; Pa         ;                     
 RAINTOT    ; pr         ; Precipitation                                 ; precipitation_amount                                ; Kg m-2     ;                     
 RH         ; hur        ; Relative humidity                             ; relative_humidity                                   ; 1          ; RH*0.01           ; p       
@@ -108,7 +108,7 @@ ACLWDNB    ; rlds   ; Surface Downwelling Longwave Radiation            ; surfac
 ACLWUPB    ; rlus   ; Surface Upwelling Longwave Radiation              ; surface_upwelling_longwave_flux_in_air            ; W m-2      ; deaccumulate_flux   
 ACLWUPT    ; rlut   ; TOA Outgoing Longwave Radiation                   ; toa_outgoing_longwave_flux                        ; W m-2      ; deaccumulate_flux   
 ACSNOM     ; snm    ; Surface Snow melt                                 ; surface_snow_melt_flux                            ; kg m-2 s-1 ; deaccumulate_flux   
-ACSNOW     ; prsn   ; Snowfall                                          ; snowfall_flux                                     ; kg m-2 s-1   ;  deaccumulate_flux
+ACSNOW     ; prsn   ; Snowfall                                          ; snowfall_flux                                     ; kg m-2 s-1 ; deaccumulate_flux
 ACSWDNB    ; rsds   ; Surface Downwelling Shortwave Radiation           ; surface_downwelling_shortwave_flux_in_air         ; W m-2      ; deaccumulate_flux   
 ACSWDNT    ; rsdt   ; TOA Incident Shortwave Radiation                  ; toa_incoming_shortwave_flux                       ; W m-2      ; deaccumulate_flux   
 ACSWUPB    ; rsus   ; Surface Upwelling Shortwave Radiation             ; surface_upwelling_shortwave_flux_in_air           ; W m-2      ; deaccumulate_flux   
@@ -116,10 +116,10 @@ ACSWUPT    ; rsut   ; TOA Outgoing Shortwave Radiation                  ; toa_ou
 #CLD        ; clwi   ; Total cloud water and ice                         ; cloud_water_and_ice_content                       ; kg m-2     ;                     
 CLD        ; clwi   ; Total cloud water and ice                         ; cloud_water_and_ice_content                       ; kg m-2     ; VIQC + VIQI
 CLISCCP    ; clisccp; clouds (1: p<440 hPa, 2: 660<p<440, 3: p>660)     ; cloud                                             ; 1          ;                     
-CLH        ; clh    ; High Level Cloud Fraction                         ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
-CLM        ; clm    ; Mid Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
-CLL        ; cll    ; Low Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; 1          ;                     
-CLTFR      ; clt    ; Total Cloud Fraction                              ; cloud_area_fraction                               ; 1          ;                     
+CLH        ; clh    ; High Level Cloud Fraction                         ; cloud_area_fraction_in_atmosphere_layer           ; %          ; CLH*100               
+CLM        ; clm    ; Mid Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; %          ; CLM*100               
+CLL        ; cll    ; Low Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; %          ; CLL*100                 
+CLTFR      ; clt    ; Total Cloud Fraction                              ; cloud_area_fraction                               ; %          ; CLTFR*100                  
 CLWVI      ; clwvi  ; Condensed Water Path                              ; atmosphere_cloud_condensed_water_content          ; kg m-2    
 GEOP       ; geop   ; Geopotential                                      ; geopotential                                      ; m 2 s-2    ;                     
 MOISDIV    ; husdiv ; Specific Humidity Divergence                      ; specific_humidity_divergence                      ; s-1        ;             ; p

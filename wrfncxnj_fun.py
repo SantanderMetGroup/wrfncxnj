@@ -53,7 +53,8 @@ def compute_RH2(varobj, onc, wnfiles, wntimes):
 			((t2-Constants.tkelvin)+Constants.es_Btetens_ice)), 
 		Constants.es_base_tetens*10.**(((t2-Constants.tkelvin)*Constants.es_Atetens_vapor)/
 			((t2-Constants.tkelvin)+Constants.es_Btetens_vapor)))
-	copyval = e/es
+	#copyval = e/es
+	copyval = 100*e/es
 	copyval.shape=psfc.shape[:1]+(1,)+psfc.shape[1:]
 	oncvar = get_oncvar(varobj, psfc, onc, screenvar_at_2m=True)
 #	rh2 = e/es
@@ -439,6 +440,7 @@ def compute_RAINFMAX1H(varobj, onc, wnfiles, wntimes):
 	oncvar = get_oncvar(varobj, incvar, onc)
 	oncvar.warning = "This is not a real extreme, extremes still need to be computed."
 	return oncvar, copyval
+
 def compute_RHODRY2(varobj, onc, wnfiles, wntimes):
 	"""Computes the 2 meter dry air density from 2m temperature, and surface pressure.
 	"""
@@ -451,6 +453,7 @@ def compute_RHODRY2(varobj, onc, wnfiles, wntimes):
 	copyval.shape = psfc.shape[:1]+(1,)+psfc.shape[1:]
 	oncvar = get_oncvar(varobj, incvar, onc, screenvar_at_2m=True)
 	return oncvar, copyval
+
 def compute_RHO2(varobj, onc, wnfiles, wntimes):
 	"""Computes the 2 meter dry air density from 2m temperature, and surface pressure.
 	"""
@@ -472,6 +475,7 @@ def compute_RHO2(varobj, onc, wnfiles, wntimes):
 	oncvar = get_oncvar(varobj, incvar, onc, screenvar_at_2m=True)
 	return oncvar, copyval
 # old wrfncxnj.py elif blocks variables
+
 def compute_WIND10(varobj, onc, wnfiles, wntimes):
 	incvar = wnfiles.current.variables["U10"]
 	u = incvar[:]
