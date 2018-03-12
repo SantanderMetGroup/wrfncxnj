@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from wrfncxnj_base import *
 from wrfncxnj_fun import *
 

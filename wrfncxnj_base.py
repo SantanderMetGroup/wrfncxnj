@@ -32,8 +32,10 @@ def screenvar_at_2m(varobj, onc, wnfiles, wntimes):
 	copyval = np.reshape(incvar[:],incvar.shape[:1]+(1,)+incvar.shape[1:])
 	oncvar = get_oncvar(varobj, incvar, onc, screenvar_at_2m=True)
 	return oncvar, copyval
-def get_oncvar(varobj, incvar, onc, out_is_2D_but_in_3D = False, screenvar_at_2m = False, screenvar_at_10m = False):
-	return Oncvar(varobj, incvar, onc, out_is_2D_but_in_3D = out_is_2D_but_in_3D, screenvar_at_2m = screenvar_at_2m, screenvar_at_10m = screenvar_at_10m)
+
+def get_oncvar(varobj, incvar, onc, out_is_2D_but_in_3D = False, screenvar_at_2m = False, screenvar_at_10m = False, screenvar_at_100m = False):
+	return Oncvar(varobj, incvar, onc, out_is_2D_but_in_3D = out_is_2D_but_in_3D, screenvar_at_2m = screenvar_at_2m, screenvar_at_10m = screenvar_at_10m, screenvar_at_100m = screenvar_at_100m)
+
 def screenvar_at_10m(varobj, onc, wnfiles, wntimes):
 	#
 	# Works for any variable defined at 10m with no other transformation.
@@ -42,6 +44,15 @@ def screenvar_at_10m(varobj, onc, wnfiles, wntimes):
 	copyval = np.reshape(incvar[:],incvar.shape[:1]+(1,)+incvar.shape[1:])
 	oncvar = get_oncvar(varobj, incvar, onc, screenvar_at_10m=True)
 	return oncvar, copyval
+
+def screenvar_at_100m(varobj, onc, wnfiles, wntimes):
+        #
+        # Works for any variable defined at 100m with no other transformation.
+        #
+        incvar = wnfiles.current.variables[varobj.varname]
+        copyval = np.reshape(incvar[:],incvar.shape[:1]+(1,)+incvar.shape[1:])
+        oncvar = get_oncvar(varobj, incvar, onc, screenvar_at_100m=True)
+        return oncvar, copyval
 
 def mask_sea(varobj, onc, wnfiles, wntimes):
 	#
@@ -189,6 +200,17 @@ def fake_extreme_screenvar_at_10m(varobj, onc, wnfiles, wntimes):
 	oncvar.warning = "This is not a real extreme, extremes still need to be computed." 
 	return oncvar, copyval
 
+def fake_extreme_screenvar_at_100m(varobj, onc, wnfiles, wntimes):
+        #
+        # Extracts a variable, changes it's name and adds an attribute so extremes must be computed LATER
+        # the CDO. It's called "fake extreme" because it is made to replace a extreme that's not computed by CLWRF.
+        #
+        incvar = wnfiles.current.variables[varobj.varname[:-4]] #[:-4]removes "MAX" or "MIN"
+        copyval = np.reshape(incvar[:],incvar.shape[:1]+(1,)+incvar.shape[1:])
+        oncvar = get_oncvar(varobj, incvar, onc, screenvar_at_100m=True)
+        oncvar.warning = "This is not a real extreme, extremes still need to be computed."
+        return oncvar, copyval
+
 def rotate_uas(varobj, onc, wnfiles, wntimes):
 	uvarname = varobj.varname[:-2] # remove the "ER"
 	vvarname = "V" + varobj.varname[1:-2] # remove the "U" and the "ER"
@@ -224,6 +246,43 @@ def rotate_vas(varobj, onc, wnfiles, wntimes):
 	copyval.shape = v.shape[:1]+ (1,) + v.shape[1:]
 	oncvar = get_oncvar(varobj, v, onc, screenvar_at_10m=True)
 	return oncvar, copyval
+
+def rotate_uu(varobj, onc, wnfiles, wntimes):
+        uvarname = "UU"
+        vvarname = "VV"
+        u = wnfiles.current.variables[uvarname]
+        v = wnfiles.current.variables[vvarname]
+        if not wnfiles.geo:
+                print >> sys.stderr, "Error: The geo_em file is needed to rotate the winds"
+                sys.exit(1)
+        else:
+                sina = wnfiles.geo.variables["SINALPHA"][:]
+                cosa = wnfiles.geo.variables["COSALPHA"][:]
+        copyval = (
+                u[:]*cosa[np.newaxis,...] - v[:]*sina[np.newaxis,...]
+        )
+        copyval.shape = u.shape[:1]+ (1,) + u.shape[1:]
+        oncvar = get_oncvar(varobj, u, onc, screenvar_at_100m=True)
+        return oncvar, copyval
+
+def rotate_vv(varobj, onc, wnfiles, wntimes):
+        uvarname = "UU"
+        vvarname = "VV"
+        u = wnfiles.current.variables[uvarname]
+        v = wnfiles.current.variables[vvarname]
+        if not wnfiles.geo:
+                print >> sys.stderr, "Error: The geo_em file is needed to rotate the winds"
+                sys.exit(1)
+        else:
+                sina = wnfiles.geo.variables["SINALPHA"][:]
+                cosa = wnfiles.geo.variables["COSALPHA"][:]
+        copyval = (
+                u[:]*sina[np.newaxis,...] + v[:]*cosa[np.newaxis,...]
+        )
+        copyval.shape = v.shape[:1]+ (1,) + v.shape[1:]
+        oncvar = get_oncvar(varobj, v, onc, screenvar_at_100m=True)
+        return oncvar, copyval
+
 
 def compute_mslp(p, pb, ph, phb, t , qvapor):
 	"""
@@ -291,7 +350,7 @@ def charr2str(carr):
 # without requiring specifying the format. 
 #
 def strptime(str):
-	date = ncdf.num2date(0, units="Days since %s" % str)
+	date = ncdf.num2date(0, units="days since %s" % str)
 	return date
 
 def str2offset(str, basedate):
@@ -432,14 +491,14 @@ def create_bare_curvilinear_CF_from_wrfnc(filename, wrfncfile, idate, proj, ncdf
 	else:
 		lats = inc.variables["XLAT"][0]
 		lons = inc.variables["XLONG"][0]
-	onclat = onc.createVariable("lat", np.float32, (proj.yname, proj.xname))
-	onclat.long_name = "Latitudes"
+	onclat = onc.createVariable("lat", np.float64, (proj.yname, proj.xname))
+        onclat.long_name = "latitude"
 	onclat.standard_name = "latitude"
 	onclat.units = "degrees_north"
 	if not opt.quiet: print lats.shape, onclat.shape
 	onclat[:len(lats)] = lats
-	onclon = onc.createVariable("lon",np.float32, (proj.yname, proj.xname))
-	onclon.long_name = "Longitude"
+        onclon = onc.createVariable("lon",np.float64, (proj.yname, proj.xname))
+	onclon.long_name = "longitude"
 	onclon.standard_name = "longitude"
 	onclon.units = "degrees_east"
 	onclon[:len(lons)] = lons
@@ -458,12 +517,14 @@ def create_bare_curvilinear_CF_from_wrfnc(filename, wrfncfile, idate, proj, ncdf
 		onc.createVariable("time_bnds",np.float64, ("time","nv"))
 	inc.close()
 	onc.sync()
-	return onc
+
+ 	return onc
 
 def add_height_coordinate(onc, coorname, val):
 	if not onc.variables.has_key(coorname):
 		onc.createDimension(coorname,1)
-		hvar = onc.createVariable(coorname, 'f', (coorname,))
+		#hvar = onc.createVariable(coorname, 'f', (coorname,))
+                hvar = onc.createVariable(coorname, 'float64', (coorname,))
 		hvar.long_name = "height above the ground"
 		hvar.standard_name = "height"
 		hvar._CoordinateAxisType = "Height"
@@ -864,9 +925,10 @@ def stdvars(vars, vtable, proj, wrfncfile):
 			rval[varwrf] = v
 	return rval
 class Oncvar:
-	def __init__(self, varobj, incvar, onc, out_is_2D_but_in_3D=False, screenvar_at_2m=False, screenvar_at_10m=False):
+	def __init__(self, varobj, incvar, onc, out_is_2D_but_in_3D=False, screenvar_at_2m=False, screenvar_at_10m=False, screenvar_at_100m=False):
 		self.screenvar_at_2m = screenvar_at_2m
 		self.screenvar_at_10m = screenvar_at_10m
+                self.screenvar_at_100m = screenvar_at_100m
 		if out_is_2D_but_in_3D:
 			cut_from = 2
 		else:
@@ -903,6 +965,8 @@ class Oncvar:
 					add_height_coordinate(self.onc, "height", 2)
 				if self.screenvar_at_10m:
 					add_height_coordinate(self.onc, "heightv", 10)
+                                if self.screenvar_at_100m:
+                                        add_height_coordinate(self.onc, "height", 100)
 				if opt.oformat == "NETCDF4_CLASSIC":
 					self.ncvars = self.onc.createVariable(varobj.standard_abbr, np.float32, self.dims, zlib=True, complevel=4, shuffle=True)
 				else:
