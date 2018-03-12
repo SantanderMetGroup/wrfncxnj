@@ -987,7 +987,6 @@ def replace_output_pattern(varobj, pattern, firstdate, lastdate, level = None):
 		else:
 			pout = pout.replace('[level]', "%g" % level)
 	else:
-		pout = pout.replace('[level]_', "")
 		pout = pout.replace('[level]', "")
 	return pout
 #
