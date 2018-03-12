@@ -46,7 +46,7 @@ U10        ; uascurv; X surface wind                                    ; x_wind
 UDROFF     ; mross  ; Subsurface runoff                                 ; subsurface_runoff                                 ; kg m-2 s-1 ; deaccumulate_flux   
 V10        ; vascurv; Y surface wind                                    ; y_wind                                            ; m s-1      ;                     
 UST        ; ustar  ; Frictional velocity in similarity theory          ; frictional_velocity_in_similarity_theory          ; m s-1      ;                     
-W          ; wa     ; Upward air velocity                               ; upward_air_velocity                               ; m s-1      ;                     
+W          ; wa     ; Upward air velocity                               ; upward_air_velocity                               ; m s-1      ;                        ; p
 Z0         ; z0     ; Surface roughness length                          ; surface_roughness_length                          ; m          ;                     
 XICEM      ; sic    ; Sea Ice Flag                                      ; sea_ice_flag                                      ; 1          ;
 XLAT       ; xlat   ; Latitude, south is negative                       ; latitude                                          ; degree_north ;
@@ -82,6 +82,11 @@ PBLHGT     ; zmla       ; Atmosphere_boundary_layer_thickness           ; atmosp
 QICE       ; clice      ; Ice mixing ratio                              ; cloud_ice_water_mixing_ratio                        ; 1          ;                   ; p
 SH2O       ; slw        ; Soil liquid water                             ; soil_liquid_water                                   ; 1          ;                   ; s
 OMEGA      ; wap        ; Vertical Velocity (Omega)                     ; lagrangian_tendency_of_air_pressure                 ; Pa s-1     ;                   ; p
+#
+# From z_interp
+#
+UUER       ; ua100m     ; Eastward wind at 100m                         ; eastward_wind                                       ; m s-1      ; rotate_uu         ; m
+VVER       ; va100m     ; Northward wind at 100m                        ; northward_wind                                      ; m s-1      ; rotate_vv         ; m
 #
 # From CLWRF
 #
@@ -124,6 +129,7 @@ CLL        ; cll    ; Low Level Cloud Fraction                          ; cloud_
 CLTFR      ; clt    ; Total Cloud Fraction                              ; cloud_area_fraction                               ; %          ; CLTFR*100                  
 #CLWVI      ; clwvi  ; Condensed Water Path                              ; atmosphere_cloud_condensed_water_content          ; kg m-2    
 GEOP       ; geop   ; Geopotential                                      ; geopotential                                      ; m 2 s-2    ;                     
+LANDMASKF  ; sftlf  ; Land Area Fraction                                ; land_area_fraction                                ; %          ; LANDMASK*100
 MOISDIV    ; husdiv ; Specific Humidity Divergence                      ; specific_humidity_divergence                      ; s-1        ;             ; p
 MRFSO      ; mrfso  ; Soil Frozen Water Content                         ; soil_frozen_water_content                         ; kg m-2    
 MRSO       ; mrso   ; Total Soil Moisture Content                       ; soil_moisture_content                             ; kg m-2     ;                     
@@ -144,6 +150,7 @@ RSS        ; rss    ; Net SW surface radiation                          ; surfac
 RST        ; rst    ; Net downward flux of SW radiation at top of atmosphere; toa_net_downward_longwave_flux                ; W m-2     
 SFCEVP     ; evspsbl; Evaporation                                       ; water_evaporation_flux                            ; kg m-2 s-1 ; deaccumulate_flux   
 SMOIS1     ; mrsos  ; Moisture of soil layer 1                          ; moisture_content_of_soil_layer                    ; kg m-2     ;             ; s              
+SMOISL     ; mrsol  ; Moisture of soil layer                            ; moisture_content_of_soil_layer                    ; kg m-2     ;             ; s              
 SNOW       ; snw    ; Accumulated snow                                  ; surface_snow_amount                               ; kg m-2     ; 
 SPDUV10    ; sfcWind; Near-Surface Wind Speed                           ; wind_speed                                        ; m s-1      ;                     
 TEMP       ; ta     ; Air Temperature                                   ; air_temperature                                   ; K          ;             ; p          
