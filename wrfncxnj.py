@@ -54,7 +54,7 @@ class ExtractAndJoin(object):
         if opt.fullfile:
             self.wrf_files_iterator.full = ncdf.Dataset(opt.fullfile, "r")
         check_options_consistency(opt)
-        self.ofh = OfileHandler()
+        self.ofh = OfileHandler(opt)
         self.ofh.set_tempdir()
         self.is_geofile = False
         self.files = self.get_input_files()
@@ -68,10 +68,11 @@ class ExtractAndJoin(object):
             self.requested_variable_names,
             opt.vtable,
             self.projection,
-            files[0]
+            self.files[0],
+            opt
         )
-        self.refdate = opt.time_units.split()[2]
-        self.wrfnctime = WrfNcTime(strptime(refdate))
+        refdate = opt.time_units.split()[2]
+        self.wrfnctime = WrfNcTime(strptime(refdate), opt.time_units)
 
     def run(self):
         opt = self.opt
@@ -83,7 +84,8 @@ class ExtractAndJoin(object):
             self.ofh,
             self.files,
             self.wrfnctime,
-            self.projection
+            self.projection,
+            opt
         )
         self.ofh.set_oncnames(oncnames)
         #
@@ -145,7 +147,7 @@ class ExtractAndJoin(object):
             )
             oncvar.sync()
         elif varobj.transform:
-            parse_transform = ParseTransform(varobj.transform)
+            parse_transform = ParseTransform(varobj.transform, self.opt)
             log.debug(parse_transform)
             vardic = {}
             for var in parse_transform.variables:
@@ -191,7 +193,7 @@ class ExtractAndJoin(object):
 
     def get_projection(self):
         projection = Projection()
-        projection.get_projection(self.files[0])
+        projection.get_projection(self.files[0], self.opt)
         return projection
 
 

@@ -28,13 +28,13 @@ class Constants:
     tkelvin = 273.15
 
 
-def screenvar_at_2m(varobj, onc, wnfiles, wntimes):
+def screenvar_at_2m(varobj, onc, wnfiles, wntimes, options):
     #
     # Works for any variable defined at 2m with no other transformation.
     #
     incvar = wnfiles.current.variables[varobj.varname]
     copyval = np.reshape(incvar[:],incvar.shape[:1]+(1,)+incvar.shape[1:])
-    oncvar = get_oncvar(varobj, incvar, onc, screenvar_at_2m=True)
+    oncvar = get_oncvar(varobj, incvar, onc, options, screenvar_at_2m=True)
     return oncvar, copyval
 
 
@@ -909,13 +909,14 @@ class WrfNcFiles:
 
 
 class WrfNcTime:
-    def __init__(self, initialdate):
+    def __init__(self, initialdate, time_units):
         self.is_singlerec = False
         self.nrec = 0
         self.initialdate = initialdate
         self.iini = 0
         self.iend = None
         self.outstep_s = 0
+        self.time_units = time_units
 
     def checkStep(self, wrfnc):
         # TODO: Check here that the next file does not have a time gap
@@ -943,7 +944,7 @@ class WrfNcTime:
             self.nrec = 1
         self.iend = self.iini + self.nrec
         times = map(charr2str, incTimes[:self.nrec])
-        return map(lambda x: str2offset(x, self.initialdate), times)
+        return map(lambda x: str2offset(x, self.time_units), times)
 
     def cycle(self):
         self.iini += self.nrec
@@ -958,8 +959,9 @@ class WrfNcTime:
 
 
 class ParseTransform:
-    def __init__(self, transformstr):
+    def __init__(self, transformstr, options):
         self.transformstr = transformstr
+        self.options = options
         words = ""
         lastchar = "X"
         for char in transformstr:
@@ -989,7 +991,7 @@ class ParseTransform:
         if self.variables:
             for var in set(self.variables):
                 cmdstr = re.sub(r"\b%s\b" % var, "vardic['%s']"%var, cmdstr)
-            log.debug(print "Executing -> %s" % cmdstr)
+            log.debug("Executing -> %s" % cmdstr)
             exec("copyval = %s" % cmdstr)
             oncvar = get_oncvar(
                 varobj, wnfiles.current.variables[self.variables[0]], onc
@@ -997,7 +999,8 @@ class ParseTransform:
         else:
             log.debug("Using function: %s" % self.functions[0])
             process_func = globals()[self.functions[0]]
-            oncvar, copyval = process_func(varobj, onc, wnfiles, wntimes)
+            oncvar, copyval = process_func(varobj, onc, wnfiles, wntimes,
+                                           self.options)
         return oncvar, copyval
 
     def __str__(self):
@@ -1408,7 +1411,7 @@ def create_oncs(vars, ofh, ifiles, wnt, proj, options):
         oncnames.append(ofile)
     if len(set(oncnames)) < len(oncnames):
         log.warning("Two variables are being processed with the same output "
-                    "file name, check OUTPUT_PATTERN"
+                    "file name, check OUTPUT_PATTERN")
     return oncs, oncnames
 #
 # Function to copy netCDF structures.
@@ -1479,8 +1482,8 @@ def netcdf_seldate(idate, fdate, ifile, ofile, options):
     idatetimes  =  ncdf.num2date(t[:], units=t.units)
     idateobj = datetime.strptime(idate, '%Y%m%d%H')
     fdateobj = datetime.strptime(fdate, '%Y%m%d%H')
-    tmask = np.array([ idateobj <= idatetimes[i] <= fdateobj for i in range(0, len(t[:]))])
-    odatetimes = idatetimes[tmask]
+    tmask = np.array(
+        [ idateobj <= idatetimes[i] <= fdateobj for i in range(0, len(t[:]))])
     main_vars.remove("time")
     #
     # Copy the netCDF structure and record the filtered variables
