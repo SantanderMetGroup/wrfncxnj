@@ -27,7 +27,7 @@ def get_options():
              "FORWARD deaccumulations", metavar="WRFNCFILE.nc"
     )
     parser.add_option(
-        "-v", "--variables", dest="vars",
+        "-v", "--variables", dest="requested_variables",
         help="Variables to extract. Apart from those defined in the file, you "
              "can ask for any of the following derived variables: MSLP, U10ER, "
              "V10ER, WIND",
@@ -76,7 +76,8 @@ def get_options():
     parser.add_option(
         "--time-bounds", dest="tbounds", metavar="H1,H2",
         help="Create a time_bnds variable to specify the period of time "
-             "considered in each time record. H1 is the start time in hours from the current time record and H2 is the ending time"
+             "considered in each time record. H1 is the start time in hours "
+             "from the current time record and H2 is the ending time"
     )
     parser.add_option(
         "-r", "--reference-date", dest="refdate",
@@ -146,8 +147,8 @@ def get_options():
     parser.add_option(
         "--filter-times", dest="ftimes", default=False,
         metavar="%Yi%mi%di%Hi,%Yf%mf%df%Hf",
-        help="Filter the output files so only times between the two selected are "
-             "retained."
+        help="Filter the output files so only times between the two selected "
+             "are retained."
     )
     (opt, args) = parser.parse_args()
     return opt, args
