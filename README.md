@@ -19,7 +19,7 @@ not need to be installed or compiled, and it has few dependencies, that can
 be installed from repositories in most linux distributions.
 
 The tool has been originally developed at the University of Cantabria by 
-Markel García-Díez, Jesús Fernández and Lluís Fita.
+Markel García-Díez, Jesús Fernández, Lluís Fita and Álvaro Lavin
 
 
 ### Installation
