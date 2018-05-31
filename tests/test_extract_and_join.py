@@ -17,7 +17,7 @@ def test_ofile():
     opt.paxis = True
     opt.OFILE = "/tmp/test_cf.nc"
     opt.quiet = False
-    opt.vtable = '/home/users/garciam/git/WRFtoolbox_github/WRFToolbox/wrfncxnj/wrfncxnj/wrfncxnj.table'
+    #opt.vtable = '/home/users/garciam/git/WRFtoolbox_github/WRFToolbox/wrfncxnj/wrfncxnj/wrfncxnj.table'
     opt.geofile = "/predictia/Projects/metromadrid/domains/metromad_lakes/geo_em.d03.nc"
     opt.time_units = "hours since 1950-01-01 00:00:00"
     opt.oformat = "NETCDF4_CLASSIC"

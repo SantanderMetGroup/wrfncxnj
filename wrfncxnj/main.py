@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import netCDF4 as ncdf
 import logging
+import os
 import re
 import string
 import sys
@@ -33,7 +34,7 @@ class ExtractAndJoin(object):
         self.wrf_files_iterator.loadFiles(self.files)
         self.requested_variable_names = opt.requested_variables.split(',')
         if not opt.vtable:
-            self.opt.vtable = sys.argv[0].replace(".py", ".table")
+            self.opt.vtable = os.path.dirname(__file__) + "/wrfncxnj.table"
 
         self.projection = self.get_projection()
         self.variables = base.read_variable_table(
@@ -79,7 +80,6 @@ class ExtractAndJoin(object):
         if opt.TEMPDIR:
             self.ofh.move_output()
         self.wrf_files_iterator.closeCommon()
-        print "Extract and join finished successfully"
 
     def process_file(self, wrfnc, oncs):
         opt = self.opt

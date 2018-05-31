@@ -11,6 +11,7 @@ setup(
     description="WRF netCDF Extract and Join",
     install_requires=requires,
     packages=['wrfncxnj', ],
+    include_package_data=True,
     license='GNU General Public License',
     scripts=['bin/wrfncxnj']
 )
