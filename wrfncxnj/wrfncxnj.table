@@ -1,0 +1,180 @@
+#
+# Table legend:
+#
+# wrfname AMIP Long name Standard name Units Function/formula 
+#
+ALT        ; rho    ; Density of the air                                ; air_density                                       ; kg m-3     ; 1/ALT; p               
+ALBEDO     ; alb    ; Surface albedo                                    ; surface_albedo                                    ; 1         
+CLDFRA     ; clfr   ; Cloud fraction                                    ; cloud_fraction                                    ; 1          ;                        ; p
+EL_MYJ     ; mxln   ; Mixing length in MYJ scheme                       ; mixing_length_in_myj                              ; m          ;                     
+GLW        ; rlds   ; Surface Downwelling Longwave Radiation            ; surface_downwelling_longwave_flux_in_air          ; W m-2      ;                     
+GRDFLX     ; hfso   ; Downward soil heat flux                           ; downward_heat_flux_in_soil                        ; W m-2      ; GRDFLX*(-1.)        
+HEIGHT     ; alt    ; Altitude from surface                             ; altitude                                          ; m          ;                     
+HFX        ; hfss   ; Surface Upward Sensible Heat Flux                 ; surface_upward_sensible_heat_flux                 ; W m-2      ;                     
+HGT        ; orog   ; Surface Altitude                                  ; surface_altitude                                  ; m          ;                     
+LH         ; hfls   ; Surface Upward Latent Heat Flux                   ; surface_upward_latent_heat_flux                   ; W m-2      ;                     
+LWUPT      ; rlnt   ; Net upward longwave flux at TOA                   ; toa_net_upward_longwave_flux                      ; W m-2      ;                     
+OLR        ; rlut   ; TOA Outgoing Longwave Radiation                   ; toa_outgoing_longwave_flux                        ; W m-2      ;                     
+P          ; p      ; Perturbation Pressure                             ; perturbation_pressure                             ; Pa         ;                        ; p
+PB         ; pb     ; Base State Pressure                               ; base_state_pressure                               ; Pa         ;                        ; p
+PH         ; ph     ; Perturbation Geopotential                         ; perturbation_geopotential                         ; m 2 s-2    ;                        ; p
+PHB        ; phb    ; Base State Geopotential                           ; base_state_geopotential                           ; m 2 s-2    ;                        ; p
+PBLH       ; zmla   ; Height of Boundary Layer                          ; atmosphere_boundary_layer_thickness               ; m          ;                     
+POTEVP     ; potevp ; Acummulated potential evaporation                 ; water_potential_evaporation_amount                ; W m-2      ;                     
+PSFC       ; ps     ; Surface Air Pressure                              ; surface_air_pressure                              ; Pa         ;                     
+VEGFRA     ; vegfr  ; vegetation fraction                               ; vegetation_fraction                               ; 100        ;                     
+Q2         ; huss   ; Near-Surface Specific Humidity                    ; specific_humidity                                 ; 1          ; screenvar_at_2m     
+QCLOUD     ; clwmr  ; Cloud water content                               ; cloud_liquid_water_mixing_ratio                   ; 1          ;                        ; p
+QFX        ; hufs   ; Upward moisture flux at the surface               ; surface_upward_water_vapor_flux_in_air            ; kg m-2 s-1 ;                     
+QVAPOR     ; hus    ; Specific Humidity                                 ; specific_humidity                                 ; 1          ;                        ; p    
+RAINNC     ; prls   ; Precipitation large scale                         ; large_scale_precipitation_amount                  ; Kg m-2 s-1 ; deaccumulate_flux   
+RAINC      ; prc    ; Convective Precipitation                          ; convective_precipitation_flux                     ; Kg m-2 s-1 ; deaccumulate_flux   
+REGIME     ; regime ; Stability regime (1=Night/Stable, 2=Mech. Turb., 3=Forced Conv, 4=Free Conv); stability_regime        ; 1          ;                     
+RMOL       ; mol    ; Monin Obukhov Length                              ; monin_obukhov_length                              ; m          ; 1/RMOL              
+POTEVP     ; evspsblpot; Potential Evapotranspiration                   ; potential_water_evaporation_flux                  ; kg m-2 s-1 ; deaccumulate_flux   
+SFROFF     ; mrros  ; Surface runoff                                    ; surface_runoff_flux                               ; kg m-2 s-1 ; deaccumulate_flux   
+SMOIS      ; mrsosd ; Volume fraction of condensed water in soil        ; volume_fraction_of_condensed_water_in_soil        ; m3 m-3     ; mask_land              ; s   
+SNOWH      ; snd    ; Snow Depth                                        ; surface_snow_thickness                            ; m         
+SST        ; sst    ; sea surface temperature                           ; sea_surface_temperature                           ; K          ; mask_sea            
+SWDOWN     ; rsds   ; Surface Downwelling Shortwave Radiation           ; surface_downwelling_shortwave_flux_in_air         ; W m-2      ;                     
+SWUPT      ; rsnt   ; Net upward shortwave flux at TOA                  ; toa_net_upward_shortwave_flux                     ; W m-2      ;                     
+T2         ; tas    ; Near-Surface Air Temperature                      ; air_temperature                                   ; K          ; screenvar_at_2m     
+TSLB       ; tsos   ; Soil temperature                                  ; soil_temperature                                  ; K          ;                        ; s
+TSK        ; ts     ; Surface Temperature                               ; surface_temperature                               ; K         
+TKE_MYJ    ; tkemyj ; Specific turbulent kinetic Energy in MYJ scheme   ; specific_turbulent_kinetic_energy_in_myj          ; m 2 s-2    ;                     
+U10        ; uascurv; X surface wind                                    ; x_wind                                            ; m s-1      ;                     
+UDROFF     ; mross  ; Subsurface runoff                                 ; subsurface_runoff                                 ; kg m-2 s-1 ; deaccumulate_flux   
+V10        ; vascurv; Y surface wind                                    ; y_wind                                            ; m s-1      ;                     
+UST        ; ustar  ; Frictional velocity in similarity theory          ; frictional_velocity_in_similarity_theory          ; m s-1      ;                     
+W          ; wa     ; Upward air velocity                               ; upward_air_velocity                               ; m s-1      ;                        ; p
+Z0         ; z0     ; Surface roughness length                          ; surface_roughness_length                          ; m          ;                     
+XICEM      ; sic    ; Sea Ice Flag                                      ; sea_ice_flag                                      ; 1          ;
+XLAT       ; xlat   ; Latitude, south is negative                       ; latitude                                          ; degree_north ;
+XLONG      ; xlong  ; Longitude, west is negative                       ; longitude                                         ; degree_east  ;
+#
+# From geo_em file
+#
+HGT_M      ; orog   ; Surface Altitude                                  ; surface_altitude                                  ; m          ;                     
+LANDMASK   ; sftls  ; Land mask                                         ; land_binary_mask                                  ; 1          ;                     
+LU_INDEX   ; lco    ; Land use                                          ; land_use                                          ; 1         
+#
+# From p_interp
+#
+ACLWDNT    ; aclwdnt    ; Accumulated downwelling LW flux at top        ; accumulated_downward_longwave_flux                  ; J m-2      ;
+CLT        ; clt        ; Total cloud Fraction                          ; cloud_area_fraction                                 ; %          ; CLT*100                     
+EMISS      ; emiss      ; Surface emissivity                            ; surface_emissivity                                  ;            ;
+GHT        ; zg         ; Geopotential Height                           ; geopotential_height                                 ; m          ; GHT*0.102040816   ; p                
+MSLP       ; psl        ; Sea level pressure                            ; air_pressure_at_sea_level                           ; Pa         ;                     
+RAINTOT    ; pr         ; Precipitation                                 ; precipitation_amount                                ; Kg m-2     ;                     
+RH         ; hur        ; Relative humidity                             ; relative_humidity                                   ; 1          ; RH*0.01           ; p       
+SNOWNC     ; snownc     ; Accumulated total grid scale snow and ice     ; snow_and_ice                                        ; mm         ;
+VIM        ; prw        ; Water Vapour Path                             ; atmosphere_water_vapor_content                      ; kg m-2     ;
+VIMU       ; vimu       ; Vertically integrated transport WE of moist   ; eastward_moist_transport                            ; kg s-1 m-1 ;
+VIMV       ; vimv       ; Vertically integrated transport SN of moist   ; northward_moist_transport                           ; kg s-1 m-1 ;
+VIMW       ; vimw       ; Vertically integrated transport bottom-top of moist ; upward_moist_transport                        ; kg s-1 m-1 ;
+#VIQC       ; cllwvi     ; Liquid Water Content                          ; atmosphere_cloud_liquid_water_content               ; kg m-2     ;
+VIQC       ; clwvi      ; Liquid Water Content                          ; atmosphere_cloud_liquid_water_content               ; kg m-2     ;
+VIQI       ; clivi      ; Ice Water Path                                ; atmosphere_cloud_ice_content                        ; kg m-2     ;
+VIU        ; viu        ; Vertically integrated wind WE                 ; eastward_wind                                       ; s-1 m-1    ;
+VIV        ; viv        ; Vertically integrated wind SN                 ; northward_wind                                      ; s-1 m-1    ;
+VIW        ; viw        ; Vertically integrated wind bottom-top         ; upward_wind                                         ; s-1 m-1    ;
+PBLHGT     ; zmla       ; Atmosphere_boundary_layer_thickness           ; atmosphere_boundary_layer_thickness                 ; m          ;
+QICE       ; clice      ; Ice mixing ratio                              ; cloud_ice_water_mixing_ratio                        ; 1          ;                   ; p
+SH2O       ; slw        ; Soil liquid water                             ; soil_liquid_water                                   ; 1          ;                   ; s
+OMEGA      ; wap        ; Vertical Velocity (Omega)                     ; lagrangian_tendency_of_air_pressure                 ; Pa s-1     ;                   ; p
+#
+# From z_interp
+#
+UUER       ; ua100m     ; Eastward wind at 100m                         ; eastward_wind                                       ; m s-1      ; rotate_uu         ; m
+VVER       ; va100m     ; Northward wind at 100m                        ; northward_wind                                      ; m s-1      ; rotate_vv         ; m
+#
+# From CLWRF
+#
+Q2MAX      ; hursmax; Max. surface relative humidity                    ; relative_humidity                                 ; 1          ; screenvar_at_2m     
+Q2MIN      ; hursmin; Min. surface relative humidity                    ; relative_humidity                                 ; 1          ; screenvar_at_2m     
+Q2MEAN     ; hursmean; Mean surface relative humidity                   ; relative_humidity                                 ; 1          ; screenvar_at_2m     
+RH2MEAN    ; hursmean; Mean surface relative humidity                   ; relative_humidity                                 ; 1          ; screenvar_at_2m     
+RAINMAX1H  ; prhmax ; Daily Maximum Hourly Precipitation Rate           ; precipitation_flux                                ; kg m-2 s-1
+SKINTEMPMAX; tsosmin; Max. surface skin temperature                     ; soil_skin_emperature                              ; K         
+SKINTEMPMIN; tsosmin; Min. surface skin temperature                     ; soil_skin_temperature                             ; K         
+SPDUV10MAX ; sfcWindmax ; Daily Maximum Near-Surface Wind Speed         ; wind_speed                                        ; m s-1      ; screenvar_at_10m    
+SUNSHINE   ; sund   ; Duration of Sunshine                              ; duration_of_sunshine                              ; minutes   
+T2MAX      ; tasmax ; Daily Maximum Near-Surface Air Temperature        ; air_temperature                                   ; K          ; screenvar_at_2m     
+T2MEAN     ; tasmean; Mean surface air temperature                      ; air_temperature                                   ; K          ; screenvar_at_2m     
+T2MIN      ; tasmin ; Daily Minimum Near-Surface Air Temperature        ; air_temperature                                   ; K          ; screenvar_at_2m     
+WINDGUSTMAX; wsgsmax ; Daily Maximum Near-Surface Wind Speed of Gust    ; wind_speed_of_gust                                ; m s-1      ;                     
+U10MEAN    ; uasmean; Mean eastward wind at surface                     ; eastward_wind                                     ; m s-1      ; rotate_uas          
+V10MEAN    ; vasmean; Mean northward wind at surface                    ; northward_wind                                    ; m s-1      ; rotate_vas          
+#
+# Derived variables
+#
+ACLHF      ; hfls   ; Surface Upward Latent Heat Flux                   ; surface_upward_latent_heat_flux                   ; W m-2      ; deaccumulate_flux   
+ACHFX      ; hfss   ; Surface Upward Sensible Heat flux                 ; surface_upward_sensible_heat_flux                 ; W m-2      ; deaccumulate_flux   
+ACRLS      ; rls    ; Net LW surface radiation                          ; surface_net_downward_longwave_flux                ; W m-2      ; deaccumulate_flux   
+ACLWDNB    ; rlds   ; Surface Downwelling Longwave Radiation            ; surface_downwelling_longwave_flux_in_air          ; W m-2      ; deaccumulate_flux   
+ACLWUPB    ; rlus   ; Surface Upwelling Longwave Radiation              ; surface_upwelling_longwave_flux_in_air            ; W m-2      ; deaccumulate_flux   
+ACLWUPT    ; rlut   ; TOA Outgoing Longwave Radiation                   ; toa_outgoing_longwave_flux                        ; W m-2      ; deaccumulate_flux   
+ACSNOM     ; snm    ; Surface Snow melt                                 ; surface_snow_melt_flux                            ; kg m-2 s-1 ; deaccumulate_flux   
+ACSNOW     ; prsn   ; Snowfall                                          ; snowfall_flux                                     ; kg m-2 s-1 ; deaccumulate_flux
+ACSWDNB    ; rsds   ; Surface Downwelling Shortwave Radiation           ; surface_downwelling_shortwave_flux_in_air         ; W m-2      ; deaccumulate_flux   
+ACSWDNT    ; rsdt   ; TOA Incident Shortwave Radiation                  ; toa_incoming_shortwave_flux                       ; W m-2      ; deaccumulate_flux   
+ACSWUPB    ; rsus   ; Surface Upwelling Shortwave Radiation             ; surface_upwelling_shortwave_flux_in_air           ; W m-2      ; deaccumulate_flux   
+ACSWUPT    ; rsut   ; TOA Outgoing Shortwave Radiation                  ; toa_outgoing_shortwave_flux                       ; W m-2      ; deaccumulate_flux   
+#CLD        ; clwi   ; Total cloud water and ice                         ; cloud_water_and_ice_content                       ; kg m-2     ;                     
+CLD        ; clwi   ; Total cloud water and ice                         ; cloud_water_and_ice_content                       ; kg m-2     ; VIQC + VIQI
+CLISCCP    ; clisccp; clouds (1: p<440 hPa, 2: 660<p<440, 3: p>660)     ; cloud                                             ; 1          ;                     
+CLH        ; clh    ; High Level Cloud Fraction                         ; cloud_area_fraction_in_atmosphere_layer           ; %          ; CLH*100               
+CLM        ; clm    ; Mid Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; %          ; CLM*100               
+CLL        ; cll    ; Low Level Cloud Fraction                          ; cloud_area_fraction_in_atmosphere_layer           ; %          ; CLL*100                 
+CLTFR      ; clt    ; Total Cloud Fraction                              ; cloud_area_fraction                               ; %          ; CLTFR*100                  
+#CLWVI      ; clwvi  ; Condensed Water Path                              ; atmosphere_cloud_condensed_water_content          ; kg m-2    
+GEOP       ; geop   ; Geopotential                                      ; geopotential                                      ; m 2 s-2    ;                     
+LANDMASKF  ; sftlf  ; Land Area Fraction                                ; land_area_fraction                                ; %          ; LANDMASK*100
+MOISDIV    ; husdiv ; Specific Humidity Divergence                      ; specific_humidity_divergence                      ; s-1        ;             ; p
+MRFSO      ; mrfso  ; Soil Frozen Water Content                         ; soil_frozen_water_content                         ; kg m-2    
+MRSO       ; mrso   ; Total Soil Moisture Content                       ; soil_moisture_content                             ; kg m-2     ;                     
+#PRES       ; pres   ; Air pressure                                      ; air_pressure                                      ; Pa         ;                     
+PRES       ; pres   ; Air pressure                                      ; air_pressure                                      ; Pa         ; P + PB; z
+PRW        ; prw    ; Water Vapor Content                               ; atmosphere_water_vapor_content                    ; kg m-2     ;                     
+RH2        ; hurs   ; Near-Surface Relative Humidty                     ; relative_humidity                                 ; %        ;                   
+RAINF      ; pr     ; Precipitation                                     ; precipitation_flux                                ; kg m-2 s-1
+RAIN       ; pr     ; Accumulated precipitation                         ; precipitation_amount                              ; kg m-2    
+MRRO       ; mrro   ; Total runoff                                      ; runoff_flux                                      ; kg m-2 s-1 ; 
+#TODO: RAINM1H prhmax Max. hourly precipitation rate precipitation_flux kg m-2 s-1
+RAINFORWARD; pr     ; Precipitation                                     ; precipitation_amount                              ; Kg m-2     ;                     
+RLS        ; rls    ; Net LW surface radiation                          ; surface_net_downward_longwave_flux                ; W m-2      ; EMISS*GLW - 5.67e-8*EMISS*TSK**4
+RLSKIN     ; rls    ; Net LW surface radiation                          ; surface_net_downward_longwave_flux                ; W m-2      ; EMISS*GLW - 5.67e-8*EMISS*SKINTEMP**4
+RLT        ; rlt    ; Net downward flux of LW radiation at top of atmosphere; toa_net_downward_longwave_flux                    ; W m-2     
+#RSS        ; rss    ; Net SW surface radiation                          ; surface_net_downward_shortwave_flux               ; W m-2      ;                     
+RSS        ; rss    ; Net SW surface radiation                          ; surface_net_downward_shortwave_flux               ; W m-2      ; SWDOWN*(1 - ALBEDO )
+RST        ; rst    ; Net downward flux of SW radiation at top of atmosphere; toa_net_downward_longwave_flux                ; W m-2     
+SFCEVP     ; evspsbl; Evaporation                                       ; water_evaporation_flux                            ; kg m-2 s-1 ; deaccumulate_flux   
+SMOIS1     ; mrsos  ; Moisture of soil layer 1                          ; moisture_content_of_soil_layer                    ; kg m-2     ;             ; s              
+SMOISL     ; mrsol  ; Moisture of soil layer                            ; moisture_content_of_soil_layer                    ; kg m-2     ;             ; s              
+SNOW       ; snw    ; Accumulated snow                                  ; surface_snow_amount                               ; kg m-2     ; 
+SPDUV10    ; sfcWind; Near-Surface Wind Speed                           ; wind_speed                                        ; m s-1      ;                     
+TEMP       ; ta     ; Air Temperature                                   ; air_temperature                                   ; K          ;             ; p          
+TDPS       ; tdps   ; Dew point temperature at 2M                       ; dew_point_temperature                             ; K          ;                     
+RHODRY2    ; dads   ; Dry air density at 2M                             ; surface_dry_air_density                           ; kg m -3   
+RHO2       ; ads    ; Air density at 2M                                 ; surface_air_density                               ; kg m -3    ;                     
+U10ER      ; uas    ; Eastward Near-Surface Wind                        ; eastward_wind                                     ; m s-1      ; rotate_uas          
+U10MAXER   ; uasmax ; Max. eastward surface wind                        ; eastward_wind                                     ; m s-1      ; rotate_uas          
+U10MEANER  ; uasmean; Mean eastward surface wind                        ; eastward_wind                                     ; m s-1      ; rotate_uas          
+UER        ; ua     ; Eastward Wind                                     ; eastward_wind                                     ; m s-1      ;             ; p                  
+V10ER      ; vas    ; Northward Near-Surface Wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
+V10MAXER   ; vasmax ; Max. northward surface wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
+V10MEANER  ; vasmean; Mean northward surface wind                       ; northward_wind                                    ; m s-1      ; rotate_vas          
+VER        ; va     ; Northward Wind                                    ; northward_wind                                    ; m s-1      ;             ; p                 
+WIND       ; wspd   ; wind speed                                        ; wind_speed                                        ; m s-1      ;                     
+# FAKEs
+RH2FMAX    ; hursmax; Max. surface relative humidity                    ; relative_humidity                                 ; 1          ; do_nothing          
+RH2FMIN    ; hursmin; Min. surface relative humidity                    ; relative_humidity                                 ; 1          ; do_nothing          
+RAINFMAX1H ; prhmax ; Max. hourly precipitation rate                    ; precipitation_flux                                ; kg m-2 s-1 ; fake_extreme        
+SKINTEMPFMAX; tsmax  ; Max. surface temperature                          ; surface_temperature                               ; K          ; do_nothing          
+SKINTEMPFMIN; tsmin  ; Min. surface temperature                          ; surface_temperature                               ; K          ; do_nothing          
+SPDUV10FMAX; wssmax ; Max. surface wind speed                           ; air_velocity                                      ; m s-1      ; do_nothing          
+FSUNSHINE  ; sund   ; Sunshine duration                                 ; sunshine_duration                                 ; minutes   
+T2FMAX     ; tasmax ; Max. surface air temperature                      ; air_temperature                                   ; K          ; do_nothing          
+T2FMIN     ; tasmin ; Min. surface air temperature                      ; air_temperature                                   ; K          ; do_nothing  
+#Only for setting the time_bonds in the post3, DO NOT CALL them from wrfncxnj.py.
+MSLPMEAN   ; pslmean    ; Mean sea level pressure                           ; air_pressure_at_sea_level                         ; Pa         ;                    
