@@ -46,3 +46,40 @@ from the web cited above.
 Another possibility (easier) is to install a scientific python 
 distribution such as [Anaconda https://store.continuum.io/cshop/anaconda/], 
 that already comes with this packages. 
+
+### Usage
+
+WRF NetCDF Extract&Join is invoked from the command line as:
+
+```
+wrfncxnj [options] [files to process]
+```
+
+A description of all the options available can be obtained executing:
+
+```
+wrfncxnj.py -h
+```
+
+The ASCII file wrfncxnj.table plays a central role in translating the WRF 
+variables to CF conventions. This file can be modified by the user to meet 
+its needs. The user interested in modifying the rest of the code should check 
+the /TechnicalDescription. Users are highly encouraged to look into the code, 
+play with it, and report back any bug or improvement.
+
+The essential elements of the command line needed are the list of variables 
+to be extracted, the output file (or pattern, is the output is to be splitted 
+into variables or levels), the reference time for the time axis and the 
+"wrfout" files, which can be provided as arguments. See the following example:
+
+```
+wrfncxnj.py [flags] --split-variables --time-units="days since 1949-12-01_00:00:00" --output-pattern=EXPERIMENT_[varcf].nc -v "VAR1,VAR2,VAR3" wrfout1.nc wrfout2.nc ... wrfoutN.nc
+```
+
+This command would read variables VAR1, VAR2 and VAR3 from wrfout1.nc 
+wrfout2.nc ... wrfoutN.nc and write them in separate files labelled by their 
+CF name. Notice that VAR1, VAR2 and VAR3 are not the CF names of the 
+variables, but the name that appears in the first column of wrfncxnj.table 
+(usually, the variable name in WRF). Different wrfncxnj variables can share 
+the same CF name, so the unique names for the variables are the WRF names 
+(or the aliases in the first column of wrfncxnj.table).
