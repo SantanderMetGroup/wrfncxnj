@@ -412,7 +412,7 @@ class Projection:
                 "units" : "degrees"
             }
             if options.geofile:
-                incgeo = ncdf.Dataset(opt.geofile,'r')
+                incgeo = ncdf.Dataset(options.geofile,'r')
                 self.xvalues = incgeo.variables["CLONG"][0, 0, :]
                 self.yvalues = incgeo.variables["CLAT"][0, :, 0]
                 incgeo.close()
@@ -1040,7 +1040,7 @@ def create_oncs(vars, ofh, ifiles, wnt, proj, options):
                     )
                     oncs[var.varname][level] = cf_netcdf
                     if options.attributes:
-                        set_global_attributes(oncs[var.varname][level])
+                        set_global_attributes(oncs[var.varname][level],options)
                     oncnames.append(ofile)
             else:
                 ofile = replace_output_pattern(var, ofh.tempfile, firstt,
