@@ -151,6 +151,7 @@ RST        ; rst    ; Net downward flux of SW radiation at top of atmosphere; to
 SFCEVP     ; evspsbl; Evaporation                                       ; water_evaporation_flux                            ; kg m-2 s-1 ; deaccumulate_flux   
 SMOIS1     ; mrsos  ; Moisture of soil layer 1                          ; moisture_content_of_soil_layer                    ; kg m-2     ;             ; s              
 SMOISL     ; mrsol  ; Moisture of soil layer                            ; moisture_content_of_soil_layer                    ; kg m-2     ;             ; s              
+MRSOL      ; mrsol  ; Moisture of soil layer                            ; moisture_content_of_soil_layer                    ; kg m-2     ;             ; s
 SNOW       ; snw    ; Accumulated snow                                  ; surface_snow_amount                               ; kg m-2     ; 
 SPDUV10    ; sfcWind; Near-Surface Wind Speed                           ; wind_speed                                        ; m s-1      ;                     
 TEMP       ; ta     ; Air Temperature                                   ; air_temperature                                   ; K          ;             ; p          

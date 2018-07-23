@@ -587,3 +587,28 @@ def compute_VIS(varobj, onc, wnfiles, wntimes, options):
     oncvar = get_oncvar(varobj, incvar, onc, options, out_is_2D_but_in_3D=True)
     return oncvar, copyval
 
+def compute_MRSOL(varobj, onc, wnfiles, wntimes):
+        incvar = wnfiles.current.variables['SMOIS']
+        if wnfiles.current.variables.has_key("DZS"):
+                layer_width = wnfiles.current.variables['DZS'][:]
+        else:
+                if wnfiles.full.variables.has_key("DZS"):
+                        layer_width = wnfiles.full.variables['DZS'][:]
+                else:
+                        print >> sys.stderr, "Error: 'DZS' variable not found!"
+                        sys.exit(1)
+        mrsol = incvar[:] * layer_width[:,:,np.newaxis,np.newaxis]*1000. # m3/m3 -> Kg/m2
+        # Sets sea points to missing values.
+        if wnfiles.current.variables.has_key("LANDMASK"):
+                landmask = wnfiles.current.variables["LANDMASK"][:]
+        else:
+                if not wnfiles.geo:
+                        print >> sys.stderr, "Error: The geo_em file is needed to read the landmask."
+                        sys.exit(1)
+                else:
+                        landmask = wnfiles.geo.variables["LANDMASK"][:]
+        landmask = np.resize(landmask, mrsol.shape)
+        copyval = np.where( landmask == 0, -9.e+33, mrsol[:])
+        oncvar = get_oncvar(varobj, incvar, onc)
+        oncvar.missing_value = np.array(-9.e+33).astype(oncvar.dtype)
+        return oncvar, copyval
