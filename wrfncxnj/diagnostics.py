@@ -330,8 +330,8 @@ def compute_MRRO(varobj, onc, wnfiles, wntimes, options):
         incvar = wnfiles.current.variables["SFROFF"]
         sfroff = incvar[:]
         udroff = wnfiles.current.variables["UDROFF"][:]
-        deac_sfroff = deaccumulate_var(sfroff, "SFROFF", wnfiles, wntimes)
-        deac_udroff  = deaccumulate_var(udroff, "UDROFF", wnfiles, wntimes)
+        deac_sfroff = deaccumulate_var(sfroff, "SFROFF", wnfiles, wntimes, options)
+        deac_udroff  = deaccumulate_var(udroff, "UDROFF", wnfiles, wntimes, options)
 
         copyval = deac_sfroff + deac_udroff
         #copyval = np.where(copyval<0., 0, copyval)/float(wntimes.outstep_s)
@@ -565,7 +565,7 @@ def compute_MSLP(varobj, onc, wnfiles, wntimes, options):
         copyval = compute_mslp(p, pb, ph, phb, t , qvapor)
         oncvar = get_oncvar(varobj, incvar, onc, options,
                             out_is_2D_but_in_3D=True)
-        return oncvar, copyval
+    return oncvar, copyval
 
 
 def compute_VIS(varobj, onc, wnfiles, wntimes, options):
@@ -587,7 +587,7 @@ def compute_VIS(varobj, onc, wnfiles, wntimes, options):
     oncvar = get_oncvar(varobj, incvar, onc, options, out_is_2D_but_in_3D=True)
     return oncvar, copyval
 
-def compute_MRSOL(varobj, onc, wnfiles, wntimes):
+def compute_MRSOL(varobj, onc, wnfiles, wntimes, options):
         incvar = wnfiles.current.variables['SMOIS']
         if wnfiles.current.variables.has_key("DZS"):
                 layer_width = wnfiles.current.variables['DZS'][:]
@@ -609,6 +609,6 @@ def compute_MRSOL(varobj, onc, wnfiles, wntimes):
                         landmask = wnfiles.geo.variables["LANDMASK"][:]
         landmask = np.resize(landmask, mrsol.shape)
         copyval = np.where( landmask == 0, -9.e+33, mrsol[:])
-        oncvar = get_oncvar(varobj, incvar, onc)
+        oncvar = get_oncvar(varobj, incvar, onc, options)
         oncvar.missing_value = np.array(-9.e+33).astype(oncvar.dtype)
         return oncvar, copyval
