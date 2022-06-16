@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Functions to compute diagnostics, must be named as compute_[varname]
 #
@@ -6,7 +5,7 @@ import numpy as np
 import logging
 import sys
 from wrfncxnj.base import get_oncvar, Constants, compute_mslp
-from generic import deaccumulate_var
+from .generic import deaccumulate_var
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +23,7 @@ def compute_CLTFR(varobj, onc, wnfiles, wntimes, options):
     NOTE: This computation is not really comparable to CLT, since is
     computed from pressure levels instead of the native sigma levels
     """
-    if wnfiles.current.variables.has_key("CLT"):
+    if "CLT" in wnfiles.current.variables:
         # The file was correctly processed by p_interp
         var = wnfiles.current.variables["CLT"]
         copyval = var[:]
@@ -207,14 +206,14 @@ def compute_TDPS_its90(varobj, onc, wnfiles, wntimes, options):
 
 
 def compute_UER(varobj, onc, wnfiles, wntimes, options):
-    if wnfiles.current.variables.has_key("UU"):	# wind on p-levels from p_interp
+    if "UU" in wnfiles.current.variables:	# wind on p-levels from p_interp
         u = wnfiles.current.variables["UU"]
         v = wnfiles.current.variables["VV"]
     else:
         u = wnfiles.current.variables["U"]
         v = wnfiles.current.variables["V"]
     if not wnfiles.geo:
-        print >> sys.stderr, "Error: The geo_em file is needed to rotate the winds"
+        print("Error: The geo_em file is needed to rotate the winds", file=sys.stderr)
         sys.exit(1)
     else:
         sina = wnfiles.geo.variables["SINALPHA"][:]
@@ -227,14 +226,14 @@ def compute_UER(varobj, onc, wnfiles, wntimes, options):
 
 
 def compute_VER(varobj, onc, wnfiles, wntimes, options):
-    if wnfiles.current.variables.has_key("UU"):	# wind on p-levels from p_interp
+    if "UU" in wnfiles.current.variables:	# wind on p-levels from p_interp
         u = wnfiles.current.variables["UU"]
         v = wnfiles.current.variables["VV"]
     else:
         u = wnfiles.current.variables["U"]
         v = wnfiles.current.variables["V"]
     if not wnfiles.geo:
-        print >> sys.stderr, "Error: The geo_em file is needed to rotate the winds"
+        print("Error: The geo_em file is needed to rotate the winds", file=sys.stderr)
         sys.exit(1)
     else:
         sina = wnfiles.geo.variables["SINALPHA"][:]
@@ -248,21 +247,21 @@ def compute_VER(varobj, onc, wnfiles, wntimes, options):
 
 def compute_SMOIS1(varobj, onc, wnfiles, wntimes, options):
     incvar = wnfiles.current.variables['SMOIS']
-    if wnfiles.current.variables.has_key("DZS"):
+    if "DZS" in wnfiles.current.variables:
         layer_width = wnfiles.current.variables['DZS'][:]
     else:
-        if wnfiles.full.variables.has_key("DZS"):
+        if "DZS" in wnfiles.full.variables:
             layer_width = wnfiles.full.variables['DZS'][:]
         else:
-            print >> sys.stderr, "Error: 'DZS' variable not found!"
+            print("Error: 'DZS' variable not found!", file=sys.stderr)
             sys.exit(1)
     smois1 = incvar[:,0,:,:]*layer_width[0,0]*1000. # m3/m3 -> Kg/m2
     # Sets sea points to missing values.
-    if wnfiles.current.variables.has_key("LANDMASK"):
+    if "LANDMASK" in wnfiles.current.variables:
         landmask = wnfiles.current.variables["LANDMASK"][:]
     else:
         if not wnfiles.geo:
-            print >> sys.stderr, "Error: The geo_em file is needed to read the landmask."
+            print("Error: The geo_em file is needed to read the landmask.", file=sys.stderr)
             sys.exit(1)
         else:
             landmask = wnfiles.geo.variables["LANDMASK"][:]
@@ -275,22 +274,22 @@ def compute_SMOIS1(varobj, onc, wnfiles, wntimes, options):
 
 def compute_MRSO(varobj, onc, wnfiles, wntimes, options):
     incvar = wnfiles.current.variables['SMOIS']
-    if wnfiles.current.variables.has_key("DZS"):
+    if "DZS" in wnfiles.current.variables:
         layer_width = wnfiles.current.variables['DZS'][0]
     else:
-        if wnfiles.full.variables.has_key("DZS"):
+        if "DZS" in wnfiles.full.variables:
             layer_width = wnfiles.full.variables['DZS'][0]
         else:
-            print >> sys.stderr, "Error: 'DZS' variable not found!"
+            print("Error: 'DZS' variable not found!", file=sys.stderr)
             sys.exit(1)
     smois = incvar[:]
     smois_byarea = smois*layer_width[np.newaxis,:,np.newaxis,np.newaxis]
     smois_total = np.sum(smois_byarea, axis=1)*1000.
-    if wnfiles.current.variables.has_key("LANDMASK"):
+    if "LANDMASK" in wnfiles.current.variables:
         landmask = wnfiles.current.variables["LANDMASK"][:]
     else:
         if not wnfiles.geo:
-            print  >> sys.stderr, "Error: I need the geo_em file to read the landmask!"
+            print("Error: I need the geo_em file to read the landmask!", file=sys.stderr)
             sys.exit(1)
         else:
             landmask = wnfiles.geo.variables["LANDMASK"][:]
@@ -357,7 +356,7 @@ def compute_RAIN(varobj, onc, wnfiles, wntimes, options):
 
 
 def compute_RAINFORWARD(varobj, onc, wnfiles, wntimes, options):
-    if wnfiles.current.variables.has_key("RAINTOT"): # The file was processed by p_interp
+    if "RAINTOT" in wnfiles.current.variables: # The file was processed by p_interp
         incvar = wnfiles.current.variables["RAINTOT"]
         pr = incvar[:]
     else:	# We should add convective and large-scale rainfall
@@ -365,7 +364,7 @@ def compute_RAINFORWARD(varobj, onc, wnfiles, wntimes, options):
         pr = incvar[:] + wnfiles.current.variables["RAINC"][:]
     if not wnfiles.nxt:
         nextpr = pr[-1]
-    elif wnfiles.current.variables.has_key("RAINTOT"):
+    elif "RAINTOT" in wnfiles.current.variables:
         nextpr = wnfiles.nxt.variables["RAINTOT"][0]
     else:
         nextpr = wnfiles.nxt.variables["RAINNC"][0] + wnfiles.nxt.variables["RAINC"][0]
@@ -383,7 +382,7 @@ def compute_ACRLS(varobj, onc, wnfiles, wntimes, options):
     #
     # If there is not ACLWDNB in the file it deaccumulates just ACLWUPB and the uses GLW to compute ACRLS.
     #
-    if wnfiles.current.variables.has_key("ACLWDNB"):
+    if "ACLWDNB" in wnfiles.current.variables:
         aclwdnb = wnfiles.current.variables["ACLWDNB"][:]
         deac_aclwdnb = deaccumulate_var(aclwdnb, "ACLWDNB", wnfiles, wntimes)
         deac_rlt =	deac_aclwdnb - deac_aclwupb
@@ -448,7 +447,7 @@ def compute_RAINFMAX1H(varobj, onc, wnfiles, wntimes, options):
     RAINCV. It deaccumulates from the value on the previous output time step.
     A flux is computed dividing by the timestep in seconds.
     """
-    if wnfiles.current.variables.has_key("RAINTOT"): # The file was processed by p_interp
+    if "RAINTOT" in wnfiles.current.variables: # The file was processed by p_interp
         incvar = wnfiles.current.variables["RAINTOT"]
         pr = incvar[:]
     else:	# We should add convective and large-scale rainfall
@@ -456,7 +455,7 @@ def compute_RAINFMAX1H(varobj, onc, wnfiles, wntimes, options):
         pr = incvar[:] + wnfiles.current.variables["RAINC"][:]
     if not wnfiles.prv:
         lastpr = pr[0]
-    elif wnfiles.current.variables.has_key("RAINTOT"):
+    elif "RAINTOT" in wnfiles.current.variables:
         lastpr = wnfiles.prv.variables["RAINTOT"][:][-1]
     else:
         lastpr = wnfiles.prv.variables["RAINNC"][:][-1] + wnfiles.prv.variables["RAINC"][:][-1]
@@ -487,7 +486,7 @@ def compute_RHO2(varobj, onc, wnfiles, wntimes, options):
     """
     incvar = wnfiles.current.variables["T2"] # K
     tas = incvar[:]
-    if wnfiles.current.variables.has_key("PSFC"):
+    if "PSFC" in wnfiles.current.variables:
         psfc = wnfiles.current.variables["PSFC"][:] # Pa
     else:
         mslp = wnfiles.current.variables["MSLP"][:] # Pa
@@ -538,7 +537,7 @@ def compute_GEOP(varobj, onc, wnfiles, wntimes, options):
 
 
 def compute_TEMP(varobj, onc, wnfiles, wntimes, options):
-    if wnfiles.current.variables.has_key("TT"):
+    if "TT" in wnfiles.current.variables:
         incvar = wnfiles.current.variables['TT']
         copyval = incvar
     else:
@@ -550,7 +549,7 @@ def compute_TEMP(varobj, onc, wnfiles, wntimes, options):
 
 
 def compute_MSLP(varobj, onc, wnfiles, wntimes, options):
-    if wnfiles.current.variables.has_key("MSLP"):
+    if "MSLP" in wnfiles.current.variables:
         incvar = wnfiles.current.variables['MSLP']
         copyval = incvar[:wntimes.nrec]
         oncvar = get_oncvar(varobj, incvar, onc, options)
@@ -589,21 +588,21 @@ def compute_VIS(varobj, onc, wnfiles, wntimes, options):
 
 def compute_MRSOL(varobj, onc, wnfiles, wntimes, options):
         incvar = wnfiles.current.variables['SMOIS']
-        if wnfiles.current.variables.has_key("DZS"):
+        if "DZS" in wnfiles.current.variables:
                 layer_width = wnfiles.current.variables['DZS'][:]
         else:
-                if wnfiles.full.variables.has_key("DZS"):
+                if "DZS" in wnfiles.full.variables:
                         layer_width = wnfiles.full.variables['DZS'][:]
                 else:
-                        print >> sys.stderr, "Error: 'DZS' variable not found!"
+                        print("Error: 'DZS' variable not found!", file=sys.stderr)
                         sys.exit(1)
         mrsol = incvar[:] * layer_width[:,:,np.newaxis,np.newaxis]*1000. # m3/m3 -> Kg/m2
         # Sets sea points to missing values.
-        if wnfiles.current.variables.has_key("LANDMASK"):
+        if "LANDMASK" in wnfiles.current.variables:
                 landmask = wnfiles.current.variables["LANDMASK"][:]
         else:
                 if not wnfiles.geo:
-                        print >> sys.stderr, "Error: The geo_em file is needed to read the landmask."
+                        print("Error: The geo_em file is needed to read the landmask.", file=sys.stderr)
                         sys.exit(1)
                 else:
                         landmask = wnfiles.geo.variables["LANDMASK"][:]

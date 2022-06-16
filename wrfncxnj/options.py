@@ -165,9 +165,9 @@ def check_options_consistency(opt):
         raise DeprecationError
 
     if not opt.OFILE and not opt.OUTPUT_PATTERN:
-        raise IOError("Missing output file or pattern!")
+        raise OSError("Missing output file or pattern!")
     if opt.OFILE and opt.OUTPUT_PATTERN:
-        raise IOError(
+        raise OSError(
             "-o and --output-pattern cannot be used at the same time!")
     if opt.splitvars and not opt.OUTPUT_PATTERN:
         raise AssertionError(

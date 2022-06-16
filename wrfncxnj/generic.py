@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 #  Generic functions to process WRF variables
 #
@@ -97,11 +96,11 @@ def mask_sea(varobj, onc, wnfiles, wntimes, options):
     # Sets land points to missing.
     #
     incvar = wnfiles.current.variables[varobj.varname]
-    if wnfiles.current.variables.has_key("LANDMASK"):
+    if "LANDMASK" in wnfiles.current.variables:
         landmask = wnfiles.current.variables["LANDMASK"][:]
     else:
         if not wnfiles.geo:
-            raise IOError(
+            raise OSError(
                 "Error: The geo_em file is needed to read the landmask.")
         else:
             landmask = wnfiles.geo.variables["LANDMASK"][:]
@@ -117,11 +116,11 @@ def mask_land(varobj, onc, wnfiles, wntimes, options):
     # Sets sea points to missing.
     #
     incvar = wnfiles.current.variables[varobj.varname]
-    if wnfiles.current.variables.has_key("LANDMASK"):
+    if "LANDMASK" in wnfiles.current.variables:
         landmask = wnfiles.current.variables["LANDMASK"][:]
     else:
         if not wnfiles.geo:
-            raise IOError(
+            raise OSError(
                 "Error: The geo_em file is needed to read the landmask.")
         else:
             landmask = wnfiles.geo.variables["LANDMASK"][:]
@@ -221,7 +220,7 @@ def rotate_uas(varobj, onc, wnfiles, wntimes, options):
     u = wnfiles.current.variables[uvarname]
     v = wnfiles.current.variables[vvarname]
     if not wnfiles.geo:
-        raise IOError("Error: The geo_em file is needed to rotate the winds")
+        raise OSError("Error: The geo_em file is needed to rotate the winds")
     else:
         sina = wnfiles.geo.variables["SINALPHA"][:]
         cosa = wnfiles.geo.variables["COSALPHA"][:]
@@ -239,7 +238,7 @@ def rotate_vas(varobj, onc, wnfiles, wntimes, options):
     u = wnfiles.current.variables[uvarname]
     v = wnfiles.current.variables[vvarname]
     if not wnfiles.geo:
-        raise IOError("Error: The geo_em file is needed to rotate the winds")
+        raise OSError("Error: The geo_em file is needed to rotate the winds")
     else:
         sina = wnfiles.geo.variables["SINALPHA"][:]
         cosa = wnfiles.geo.variables["COSALPHA"][:]
@@ -257,7 +256,7 @@ def rotate_uu(varobj, onc, wnfiles, wntimes, options):
         u = wnfiles.current.variables[uvarname]
         v = wnfiles.current.variables[vvarname]
         if not wnfiles.geo:
-                raise IOError(
+                raise OSError(
                     "Error: The geo_em file is needed to rotate the winds")
         else:
                 sina = wnfiles.geo.variables["SINALPHA"][:]
@@ -276,7 +275,7 @@ def rotate_vv(varobj, onc, wnfiles, wntimes, options):
         u = wnfiles.current.variables[uvarname]
         v = wnfiles.current.variables[vvarname]
         if not wnfiles.geo:
-                raise IOError(
+                raise OSError(
                     "Error: The geo_em file is needed to rotate the winds")
         else:
                 sina = wnfiles.geo.variables["SINALPHA"][:]

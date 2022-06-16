@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Basic classes and functions use to build wrfncxnj workflow
 #
@@ -158,12 +157,12 @@ def discard_suspect_files(filelist, criteria='uncommon_size'):
     i_file = 0
     rval = []
     for file in filelist:
-        print os.path.basename(file), file_sizes[i_file],
+        print(os.path.basename(file), file_sizes[i_file], end=' ')
         if file_sizes[i_file] in discard_sizes:
-            print " X"
+            print(" X")
         else:
             rval.append(filelist[i_file])
-            print
+            print()
         i_file += 1
     return rval
 
@@ -185,7 +184,7 @@ def create_bare_curvilinear_CF_from_wrfnc(
     opt = options
     inc = ncdf.Dataset(wrfncfile, 'r')
     onc = ncdf.Dataset(filename, "w", format=ncdf_format)
-    onc.history = "Created by %s on %s" % (sys.argv[0], time.ctime(time.time()))
+    onc.history = "Created by {} on {}".format(sys.argv[0], time.ctime(time.time()))
     onc.sync()
     proj.set_projection(onc)
     if createz:
@@ -199,7 +198,7 @@ def create_bare_curvilinear_CF_from_wrfnc(
         oncz.positive = "down"
         oncz.standard_name = "atmosphere_sigma_coordinate"
         oncz.formula_terms = "sigma: z ps: ps ptop: PTOP"
-        if inc.variables.has_key("ZNU") and not single_level:
+        if "ZNU" in inc.variables and not single_level:
             if len(inc.variables["ZNU"].shape) == 1:
                 oncz[:] = inc.variables["ZNU"][:]
             else:
@@ -207,7 +206,7 @@ def create_bare_curvilinear_CF_from_wrfnc(
         if single_level:
             oncz[:] = single_level
 
-        if inc.variables.has_key("P_TOP"):
+        if "P_TOP" in inc.variables:
             oncptop = onc.createVariable("PTOP", np.float32, ())
             oncptop.long_name = "Pressure at the top of the atmosphere"
             oncptop.units = "Pa"
@@ -225,13 +224,13 @@ def create_bare_curvilinear_CF_from_wrfnc(
         oncp.long_name = "Pressure levels"
         oncp.positive = "down"
         oncp.standard_name = "air_pressure"
-        if inc.variables.has_key("PLEV") and not single_level:
+        if "PLEV" in inc.variables and not single_level:
             oncp[:] = inc.variables["PLEV"][:]
             #
         # Looks also for the "pressure" variable in hPa so it also works with
         # the original p_interp of NCAR.
         #
-        elif inc.variables.has_key("pressure") and not single_level:
+        elif "pressure" in inc.variables and not single_level:
             oncp[:] = inc.variables["pressure"][:]*100
         if single_level:
             oncp[:] = single_level
@@ -252,7 +251,7 @@ def create_bare_curvilinear_CF_from_wrfnc(
         oncsl.units = "m"
         oncsl.positive = "down"
         oncsl.standard_name = "depth_below_surface"
-        if thisinc.variables.has_key("ZS") and not single_level:
+        if "ZS" in thisinc.variables and not single_level:
             oncsl[:] = thisinc.variables["ZS"][0]
         else:
             oncsl[:] = single_level
@@ -269,7 +268,7 @@ def create_bare_curvilinear_CF_from_wrfnc(
         oncm.long_name = "height above the ground"
         oncm.positive = "up"
         oncm.standard_name = "height"
-        if inc.variables.has_key("HEIGHT") and not single_level:
+        if "HEIGHT" in inc.variables and not single_level:
             oncm[:] = inc.variables["HEIGHT"][:]
         else:
             oncm[:] = single_level
@@ -317,7 +316,7 @@ def create_bare_curvilinear_CF_from_wrfnc(
 
 
 def add_height_coordinate(onc, coorname, val):
-    if not onc.variables.has_key(coorname):
+    if coorname not in onc.variables:
         onc.createDimension(coorname,1)
         #hvar = onc.createVariable(coorname, 'f', (coorname,))
         hvar = onc.createVariable(coorname, 'float64', (coorname,))
@@ -496,7 +495,7 @@ units: %(units)s
         # Soil levels
         #
         if self.saxis:
-            if inc.variables.has_key("ZS"):
+            if "ZS" in inc.variables:
                 levels = inc.variables["ZS"][0, :]
             elif opt.fullfile:
                 incfull = ncdf.Dataset(opt.fullfile,'r')
@@ -506,7 +505,7 @@ units: %(units)s
         # Pressure levels
         #
         elif self.paxis:
-            if inc.variables.has_key("PLEV"):
+            if "PLEV" in inc.variables:
                 levels = inc.variables["PLEV"][:]
             #
             # Looks also for the "pressure" variable in hPa so it also works
@@ -684,7 +683,7 @@ class WrfNcTime:
 
 def read_variable_table(vars, vtable, proj, wrfncfile, options):
     rval = {}
-    csv_reader = csv.reader(open(vtable, "r"), delimiter=";",
+    csv_reader = csv.reader(open(vtable), delimiter=";",
                             skipinitialspace=True)
     for line in csv_reader:
         if line[0].strip() == "":
@@ -761,7 +760,7 @@ class Oncvar:
         #
         if varobj.is_3D and opt.splitlevs:
             self.ncvars = {}
-            if self.onc[varobj.level_map.keys()[0]].variables.has_key(varobj.standard_abbr):
+            if varobj.standard_abbr in self.onc[varobj.level_map.keys()[0]].variables:
                 for level in np.sort(self.onc.keys()):
                     self.ncvars[level] = self.onc[level].variables[varobj.standard_abbr]
             else:
@@ -783,7 +782,7 @@ class Oncvar:
                         )
                     set_ncvar_attributes(self.ncvars[level], varobj)
         else:
-            if self.onc.variables.has_key(varobj.standard_abbr):
+            if varobj.standard_abbr in self.onc.variables:
                 self.ncvars = self.onc.variables[varobj.standard_abbr]
             else:
                 if self.screenvar_at_2m:
@@ -823,7 +822,7 @@ class Oncvar:
         if self.varobj.is_3D and opt.splitlevs:
             for level in np.sort(self.varobj.level_map.keys()):
                 i = self.varobj.level_map[level] # get the level index
-                log.debug("i = %s Filling level %s" % (i, level))
+                log.debug("i = {} Filling level {}".format(i, level))
                 self.ncvars[level][ini:end, :] = array[:, i, :, :]
                 self.onc[level].variables["time"][ini:end] = times
         else:
@@ -908,7 +907,7 @@ def replace_output_pattern(varobj, pattern, firstdate, lastdate, options,
 # Set global attributes.
 #
 def set_global_attributes(ncobj, options):
-    gattr_file = csv.reader(open(options.attributes, "r"), delimiter=" ",
+    gattr_file = csv.reader(open(options.attributes), delimiter=" ",
                             skipinitialspace=True)
     for line in gattr_file:
         setattr(ncobj, line[0], line[1])
@@ -956,7 +955,7 @@ class OfileHandler:
         opt = self.options
         if opt.TEMPDIR:
             if os.path.exists(self.tempdir):
-                print "Warning: %s already exists, overwriting" % self.tempdir
+                print("Warning: %s already exists, overwriting" % self.tempdir)
                 shutil.rmtree(self.tempdir)
             os.makedirs(self.tempdir)
             self.tempfile = self.ofile.replace(os.path.dirname(self.ofile),
@@ -1024,7 +1023,7 @@ def create_oncs(vars, ofh, ifiles, wnt, proj, options):
                                   " or variable list so output file names do"
                                   " not overlap." % (ofile)
                                   )
-                        raise IOError(errmsg)
+                        raise OSError(errmsg)
                     cf_netcdf = create_bare_curvilinear_CF_from_wrfnc(
                         ofile,
                         ifiles[0],
@@ -1051,7 +1050,7 @@ def create_oncs(vars, ofh, ifiles, wnt, proj, options):
                                 "variable %s" % (ofile, var.varname))
                     del vars[var.varname]
                     if not vars.keys():
-                        print "All the files have been already processed, exiting"
+                        print("All the files have been already processed, exiting")
                         sys.exit(0)
                     continue
                 oncs[var.varname] = create_bare_curvilinear_CF_from_wrfnc(
@@ -1098,7 +1097,7 @@ def create_oncs(vars, ofh, ifiles, wnt, proj, options):
 # Function to copy netCDF structures.
 #
 def copy_netcdf_structure(ifile, ofile, variables, isncobj = False):
-    print "Creating %s netCDF file" % (ofile)
+    print("Creating %s netCDF file" % (ofile))
     if isncobj:
         inc = ifile
     else:
@@ -1111,15 +1110,15 @@ def copy_netcdf_structure(ifile, ofile, variables, isncobj = False):
     #
     for ikey, ivalue in inc.__dict__.iteritems():
         onc.setncattr(ikey, ivalue)
-    onc.history = "Created by %s on %s" % (sys.argv[0],time.ctime(time.time()))
+    onc.history = "Created by {} on {}".format(sys.argv[0],time.ctime(time.time()))
     onc.sync()
     #
     # Copy dimensions
     #
     for dimname, dimobj in inc.dimensions.iteritems():
-        print "Setting dimension %s %s" % (dimname, dimobj)
+        print("Setting dimension {} {}".format(dimname, dimobj))
         if dimobj.isunlimited():
-            print "Dimension is unlimited"
+            print("Dimension is unlimited")
             onc.createDimension(dimname, None)
         else:
             onc.createDimension(dimname, len(dimobj))

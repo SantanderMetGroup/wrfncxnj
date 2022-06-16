@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import netCDF4 as ncdf
 import logging
 import os
@@ -14,7 +13,7 @@ from wrfncxnj.options import get_options, check_options_consistency
 log = logging.getLogger(__name__)
 
 
-class ExtractAndJoin(object):
+class ExtractAndJoin:
     """
     Class where the main workflow of the program is defined
     """
@@ -103,7 +102,7 @@ class ExtractAndJoin(object):
         else:
             onc = oncs[varname]
         if not opt.quiet:
-            print "Processing var %s" % varname
+            print("Processing var %s" % varname)
 
         function_name = "compute_%s" % varname
         if hasattr(diagnostics, function_name):
@@ -150,15 +149,15 @@ class ExtractAndJoin(object):
             files = glob(opt.globfiles)
             files.sort()
         elif opt.filelist:
-            files = map(string.strip, open(opt.filelist, "r").readlines())
+            files = map(string.strip, open(opt.filelist).readlines())
         else:
             files = self.args
         #
         # Look for geofile
         #
         if not files and self.wrf_files_iterator.geo:
-            print "No input files provided."
-            print "Trying to find the variables in the geo_em file provided."
+            print("No input files provided.")
+            print("Trying to find the variables in the geo_em file provided.")
             files = [opt.geofile, ]
             self.is_geofile = True
         return files
