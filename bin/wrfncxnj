@@ -13,7 +13,7 @@ opt, args = get_options()
 # Set debug level
 #
 if opt.quiet:
-    print "Extract and join is running in quiet mode"
+    print("Extract and join is running in quiet mode")
     log.setLevel("INFO")
 else:
     log.setLevel("DEBUG")
@@ -21,6 +21,6 @@ else:
 
 extract_and_join = ExtractAndJoin(opt, args)
 extract_and_join.run()
-print "Extract and join finished successfully"
+print("Extract and join finished successfully")
 
 

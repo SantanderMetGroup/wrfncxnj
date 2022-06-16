@@ -117,8 +117,10 @@ def compute_mslp(p, pb, ph, phb, t, qvapor):
 
 
 def charr2str(carr):
-    # Forma totalmente cerda...
-    return "".join(carr.tolist())
+    """
+    Convert char (byte) array to string
+    """
+    return "".join([x.decode('utf8') for x in carr])
 
 
 def strptime(istr):
@@ -471,9 +473,9 @@ class Projection:
         onc.createDimension(self.yname, self.ylen)
         oncx = onc.createVariable(self.xname, np.float64, (self.xname,))
         oncy = onc.createVariable(self.yname, np.float64, (self.yname,))
-        for attr, attrval in self.xattr.iteritems():
+        for attr, attrval in self.xattr.items():
             setattr(oncx, attr, attrval)
-        for attr, attrval in self.yattr.iteritems():
+        for attr, attrval in self.yattr.items():
             setattr(oncy, attr, attrval)
         oncx[:] = self.xvalues
         oncy[:] = self.yvalues
@@ -595,10 +597,10 @@ class WrfNcFiles:
         self.current = self.nxt
         self.assignNext()
 
-    def __iter__(self):	 # Make this object an iterator
+    def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.ifile >= self.nfiles-1:
             raise StopIteration
         else:
@@ -667,7 +669,7 @@ class WrfNcTime:
             self.nrec = 1
         self.iend = self.iini + self.nrec
         times = map(charr2str, incTimes[:self.nrec])
-        return map(lambda x: str2offset(x, self.time_units), times)
+        return [str2offset(x, self.time_units) for x in times]
 
     def cycle(self):
         self.iini += self.nrec
