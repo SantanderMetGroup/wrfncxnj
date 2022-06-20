@@ -101,7 +101,7 @@ def get_options():
     parser.add_option(
         "--output-pattern", dest="OUTPUT_PATTERN",
         metavar="[varcf]_[varwrf]_[level]_[firsttime]_[lasttime]_experiment.nc",
-        help="Output pattern to use if the option --split-in-variables is "
+        help="Output pattern to use if the option --split-variables is "
              "activated. Patterns recognized are currently of the "
              "form '[varcf]_[varwrf]_[firsttime]_[lasttime]_experiment.nc. "
              "Firsttime and lasttime are replaced by datetimes of the "
@@ -143,9 +143,9 @@ def get_options():
              " meters. They must be in .2f format."
     )
     parser.add_option(
-        "--output-format", dest="oformat", default="NETCDF3_CLASSIC",
+        "--output-format", dest="oformat", default="NETCDF4_CLASSIC",
         help="Format of the output files. Available possibilities: "
-             "NETCDF4_CLASSIC, NETCDF3 (default). If using NETCDF4_CLASSIC, "
+             "NETCDF4_CLASSIC (default), NETCDF3. If using NETCDF4_CLASSIC, "
              "the deflate level is 4 by default."
     )
     parser.add_option(
@@ -178,8 +178,8 @@ def check_options_consistency(opt):
 
     if not opt.splitvars and opt.OUTPUT_PATTERN:
         raise AssertionError("An output pattern is needed to use "
-                             "--split-in-variables. Please set it with the "
+                             "--split-variables. Please set it with the "
                              "--output-pattern option")
     if not opt.splitvars and opt.selected_plevs:
-        raise AssertionError("--split-in-vars and -sel-plevs must be used at "
+        raise AssertionError("--split-variables and -sel-plevs must be used at "
                              "the same time")

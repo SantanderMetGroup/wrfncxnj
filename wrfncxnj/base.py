@@ -276,13 +276,17 @@ def create_bare_curvilinear_CF_from_wrfnc(
             oncm[:] = single_level
         onc.sync()
     #
-    # Lat-lons (from geo_em file if provided)
+    # Lat-lons (from geo_em or full file if provided)
     #
     if opt.geofile:
         incgeo = ncdf.Dataset(opt.geofile, 'r')
-        incgeo = ncdf.Dataset(opt.geofile, 'r')
         lats = incgeo.variables["XLAT_M"][0]
         lons = incgeo.variables["XLONG_M"][0]
+        incgeo.close()
+    if opt.fullfile:
+        incgeo = ncdf.Dataset(opt.fullfile, 'r')
+        lats = incgeo.variables["XLAT"][0]
+        lons = incgeo.variables["XLONG"][0]
         incgeo.close()
     else:
         lats = inc.variables["XLAT"][0]
@@ -534,6 +538,9 @@ units: %(units)s
                 else:
                     levels = incfull.variables["ZNU"][0]
                 incfull.close()
+            else:
+                raise RuntimeError(
+                    "Error, no eta levels found in the input files")
         #
         # Height levels in meters
         #
