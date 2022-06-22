@@ -283,7 +283,7 @@ def create_bare_curvilinear_CF_from_wrfnc(
         lats = incgeo.variables["XLAT_M"][0]
         lons = incgeo.variables["XLONG_M"][0]
         incgeo.close()
-    if opt.fullfile:
+    elif opt.fullfile:
         incgeo = ncdf.Dataset(opt.fullfile, 'r')
         lats = incgeo.variables["XLAT"][0]
         lons = incgeo.variables["XLONG"][0]
